@@ -19,6 +19,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.CourseBean;
 import com.rays.exception.ApplicationException;
@@ -35,6 +37,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "CourseListCtl", urlPatterns = { "/ctl/CourseListCtl" })
 public class CourseListCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(CourseListCtl.class);
 
 	/**
 	 * Preloads course list into request scope to support dropdowns or filters.
@@ -43,14 +47,21 @@ public class CourseListCtl extends BaseCtl {
 	 */
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+		log.debug("CourseListCtl Preload Method Started");
+		
 		CourseModel courseModel = new CourseModel();
 
 		try {
 			List courseList = courseModel.list();
 			request.setAttribute("courseList", courseList);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 		}
+		
+		log.debug("CourseListCtl Preload Method Ended");
 	}
 
 	/**
@@ -61,12 +72,17 @@ public class CourseListCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("CourseListCtl Populated Bean Method Started");
+		
 		CourseBean bean = new CourseBean();
 
 		bean.setName(DataUtility.getString(request.getParameter("name")));
 		bean.setId(DataUtility.getLong(request.getParameter("courseId")));
 		bean.setDuration(DataUtility.getString(request.getParameter("duration")));
 
+		log.debug("CourseListCtl Populated Bean Method Ended");
+		
 		return bean;
 	}
 
@@ -82,6 +98,8 @@ public class CourseListCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("CourseListCtl Do Get Method Started");
 
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
@@ -103,11 +121,14 @@ public class CourseListCtl extends BaseCtl {
 			ServletUtility.setBean(bean, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("CourseListCtl Do Get Method Ended");
 			ServletUtility.forward(getView(), request, response);
 
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
-		}
+			ServletUtility.handleException(e, request, response);
+		}	
 	}
 
 	/**
@@ -122,6 +143,8 @@ public class CourseListCtl extends BaseCtl {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("CourseListCtl Do Post Method Started");
 
 		List list = null;
 		List next = null;
@@ -158,6 +181,7 @@ public class CourseListCtl extends BaseCtl {
 
 				if (ids != null && ids.length > 0) {
 					CourseBean deletebean = new CourseBean();
+					
 					for (String id : ids) {
 						deletebean.setId(DataUtility.getInt(id));
 						model.delete(deletebean);
@@ -189,10 +213,13 @@ public class CourseListCtl extends BaseCtl {
 			ServletUtility.setBean(bean, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("CourseListCtl Do Post Method Ended");
 			ServletUtility.forward(getView(), request, response);
 
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
 			return;
 		}
 	}

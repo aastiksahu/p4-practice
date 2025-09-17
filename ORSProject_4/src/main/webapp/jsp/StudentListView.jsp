@@ -21,9 +21,11 @@
 </head>
 <body>
 	<%@ include file="Header.jsp"%>
-	<jsp:useBean id="bean" class="com.rays.bean.StudentBean" scope="request"></jsp:useBean>
+	<jsp:useBean id="bean" class="com.rays.bean.StudentBean"
+		scope="request"></jsp:useBean>
 	<div align="center">
-		<h1 align="center" style="margin-bottom: -15; color: navy;">Student List</h1>
+		<h1 align="center" style="margin-bottom: -15; color: navy;">Student
+			List</h1>
 
 		<div style="height: 15px; margin-bottom: 12px">
 			<h3>
@@ -33,122 +35,122 @@
 				<font color="green"><%=ServletUtility.getSuccessMessage(request)%></font>
 			</h3>
 		</div>
-<form action="<%=ORSView.STUDENT_LIST_CTL%>" method="post">
-            <%
-                int pageNo = ServletUtility.getPageNo(request);
-                int pageSize = ServletUtility.getPageSize(request);
-                int index = ((pageNo - 1) * pageSize) + 1;
-                int nextListSize = DataUtility.getInt(request.getAttribute("nextListSize").toString());
+		<form action="<%=ORSView.STUDENT_LIST_CTL%>" method="post">
+			<%
+			int pageNo = ServletUtility.getPageNo(request);
+			int pageSize = ServletUtility.getPageSize(request);
+			int index = ((pageNo - 1) * pageSize) + 1;
+			int nextListSize = DataUtility.getInt(request.getAttribute("nextListSize").toString());
 
-                List<CollegeBean> collegeList = (List<CollegeBean>) request.getAttribute("collegeList");
-                List<StudentBean> list = (List<StudentBean>) ServletUtility.getList(request);
-                Iterator<StudentBean> it = list.iterator();
+			List<CollegeBean> collegeList = (List<CollegeBean>) request.getAttribute("collegeList");
+			List<StudentBean> list = (List<StudentBean>) ServletUtility.getList(request);
+			Iterator<StudentBean> it = list.iterator();
 
-                if (list.size() != 0) {
-            %>
+			if (list.size() != 0) {
+			%>
 
-            <input type="hidden" name="pageNo" value="<%=pageNo%>">
-            <input type="hidden" name="pageSize" value="<%=pageSize%>">
+			<input type="hidden" name="pageNo" value="<%=pageNo%>"> <input
+				type="hidden" name="pageSize" value="<%=pageSize%>">
 
-            <table style="width: 100%">
-                <tr>
-                    <td align="center">
-                        <label><b>First Name :</b></label>
-                        <input type="text" name="firstName" placeholder="Enter First Name" value="<%=ServletUtility.getParameter("firstName", request)%>">&nbsp;
-                        
-                         <label><b>Last Name :</b></label>
-                        <input type="text" name="lastName" placeholder="Enter Last Name" value="<%=ServletUtility.getParameter("lastName", request)%>">&nbsp;
+			<table style="width: 100%">
+				<tr>
+					<td align="center"><label><b>First Name :</b></label> <input
+						type="text" name="firstName" placeholder="Enter First Name"
+						value="<%=ServletUtility.getParameter("firstName", request)%>">&nbsp;
 
-                        <label><b>Email Id:</b></label>
-                        <input type="text" name="email" placeholder="Enter Email ID" value="<%=ServletUtility.getParameter("email", request)%>">&nbsp;
+						<label><b>Last Name :</b></label> <input type="text"
+						name="lastName" placeholder="Enter Last Name"
+						value="<%=ServletUtility.getParameter("lastName", request)%>">&nbsp;
 
-                        <label><b>College : </b></label>
-                        <%=HTMLUtility.getList("collegeId", String.valueOf(bean.getCollegeId()), collegeList)%>&nbsp;
+						<label><b>Email Id:</b></label> <input type="text" name="email"
+						placeholder="Enter Email ID"
+						value="<%=ServletUtility.getParameter("email", request)%>">&nbsp;
 
-                        <input type="submit" name="operation" value="<%=StudentListCtl.OP_SEARCH%>">
-                        &nbsp;
-                        <input type="submit" name="operation" value="<%=StudentListCtl.OP_RESET%>">
-                    </td>
-                </tr>
-            </table>
-            <br>
+						<label><b>College : </b></label> <%=HTMLUtility.getList("collegeId", String.valueOf(bean.getCollegeId()), collegeList)%>&nbsp;
 
-            <table border="1" style="width: 100%; border: groove;">
-                <tr style="background-color: #e1e6f1e3;">
-                    <th width="5%"><input type="checkbox" id="selectall" /></th>
-                    <th width="5%">S.No</th>
-                    <th width="13%">First Name</th>
-                    <th width="13%">Last Name</th>
-                    <th width="23%">Email Id</th>
-                    <th width="8%">College Name</th>
-                    <th width="8%">Gender</th>
-                    <th width="10%">Mobile No</th>
-                    <th width="10%">Date of Birth</th>
-                    <th width="5%">Edit</th>
-                </tr>
+						<input type="submit" name="operation"
+						value="<%=StudentListCtl.OP_SEARCH%>"> &nbsp; <input
+						type="submit" name="operation"
+						value="<%=StudentListCtl.OP_RESET%>"></td>
+				</tr>
+			</table>
+			<br>
 
-                <%
-                    while (it.hasNext()) {
-                        bean = (StudentBean) it.next();
-                        CollegeModel model = new CollegeModel();
-                        CollegeBean CollegeBean = model.findByPk(bean.getCollegeId());
+			<table border="1" style="width: 100%; border: groove;">
+				<tr style="background-color: #e1e6f1e3;">
+					<th width="5%"><input type="checkbox" id="selectall" /></th>
+					<th width="5%">S.No</th>
+					<th width="13%">First Name</th>
+					<th width="13%">Last Name</th>
+					<th width="23%">Email Id</th>
+					<th width="8%">College Name</th>
+					<th width="8%">Gender</th>
+					<th width="10%">Mobile No</th>
+					<th width="10%">Date of Birth</th>
+					<th width="5%">Edit</th>
+				</tr>
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                        String date = sdf.format(bean.getDob());
-                %>
+				<%
+				while (it.hasNext()) {
+					bean = (StudentBean) it.next();
+					CollegeModel model = new CollegeModel();
+					CollegeBean CollegeBean = model.findByPk(bean.getCollegeId());
 
-                <tr>
-                    <td style="text-align: center;"><input type="checkbox"
+					SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+					String date = sdf.format(bean.getDob());
+				%>
+
+				<tr>
+					<td style="text-align: center;"><input type="checkbox"
 						class="case" name="ids" value="<%=bean.getId()%>"></td>
-                    <td style="text-align: center;"><%=index++%></td>
-                    <td style="text-align: center; text-transform: capitalize;"><%=bean.getFirstName()%></td>
-                    <td style="text-align: center; text-transform: capitalize;"><%=bean.getLastName()%></td>
-                    <td style="text-align: center; text-transform: lowercase;"><%=bean.getEmail()%></td>
-                    <td style="text-align: center; text-transform: capitalize;"><%=CollegeBean.getName()%></td>
-                    <td style="text-align: center; text-transform: capitalize;"><%=bean.getGender()%></td>
-                    <td style="text-align: center;"><%=bean.getMobileNo()%></td>
-                    <td style="text-align: center;"><%=date%></td>
-                    <td style="text-align: center;"><a href="StudentCtl?id=<%=bean.getId()%>">Edit</a></td>
-                </tr>
+					<td style="text-align: center;"><%=index++%></td>
+					<td style="text-align: center; text-transform: capitalize;"><%=bean.getFirstName()%></td>
+					<td style="text-align: center; text-transform: capitalize;"><%=bean.getLastName()%></td>
+					<td style="text-align: center; text-transform: lowercase;"><%=bean.getEmail()%></td>
+					<td style="text-align: center; text-transform: capitalize;"><%=CollegeBean.getName()%></td>
+					<td style="text-align: center; text-transform: capitalize;"><%=bean.getGender()%></td>
+					<td style="text-align: center;"><%=bean.getMobileNo()%></td>
+					<td style="text-align: center;"><%=date%></td>
+					<td style="text-align: center;"><a
+						href="StudentCtl?id=<%=bean.getId()%>">Edit</a></td>
+				</tr>
 
-                <%
-                    }
-                %>
-            </table>
+				<%
+				}
+				%>
+			</table>
 
-            <table style="width: 100%">
-                <tr>
-                    <td style="width: 25%">
-                        <input type="submit" name="operation" value="<%=StudentListCtl.OP_PREVIOUS%>" <%=pageNo > 1 ? "" : "disabled"%>>
-                    </td>
-                    <td align="center" style="width: 25%">
-                        <input type="submit" name="operation" value="<%=StudentListCtl.OP_NEW%>">
-                    </td>
-                    <td align="center" style="width: 25%">
-                        <input type="submit" name="operation" value="<%=StudentListCtl.OP_DELETE%>">
-                    </td>
-                    <td style="width: 25%" align="right">
-                        <input type="submit" name="operation" value="<%=StudentListCtl.OP_NEXT%>" <%=nextListSize != 0 ? "" : "disabled"%>>
-                    </td>
-                </tr>
-            </table>
+			<table style="width: 100%">
+				<tr>
+					<td style="width: 25%"><input type="submit" name="operation"
+						value="<%=StudentListCtl.OP_PREVIOUS%>"
+						<%=pageNo > 1 ? "" : "disabled"%>></td>
+					<td align="center" style="width: 25%"><input type="submit"
+						name="operation" value="<%=StudentListCtl.OP_NEW%>"></td>
+					<td align="center" style="width: 25%"><input type="submit"
+						name="operation" value="<%=StudentListCtl.OP_DELETE%>"></td>
+					<td style="width: 25%" align="right"><input type="submit"
+						name="operation" value="<%=StudentListCtl.OP_NEXT%>"
+						<%=nextListSize != 0 ? "" : "disabled"%>></td>
+				</tr>
+			</table>
 
-            <%
-                } else {
-            %>
+			<%
+			} else {
+			%>
 
-            <table>
-                <tr>
-                    <td align="right">
-                        <input type="submit" name="operation" value="<%=StudentListCtl.OP_BACK%>">
-                    </td>
-                </tr>
-            </table>
+			<table>
+				<tr>
+					<td align="right"><input type="submit" name="operation"
+						value="<%=StudentListCtl.OP_BACK%>"></td>
+				</tr>
+			</table>
 
-            <%
-                }
-            %>
-        </form>
-    </div>
+			<%
+			}
+			%>
+		</form>
+	</div>
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>

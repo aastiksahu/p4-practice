@@ -10,20 +10,49 @@ import java.util.List;
 import com.rays.bean.StudentBean;
 import com.rays.model.StudentModel;
 
+/**
+ * Test class for {@link StudentModel} to perform CRUD operations and
+ * validations.
+ * <p>
+ * Includes test methods for:
+ * <ul>
+ * <li>Adding a student</li>
+ * <li>Updating student data</li>
+ * <li>Deleting a student</li>
+ * <li>Finding by primary key or email</li>
+ * <li>Searching students</li>
+ * <li>Listing all students</li>
+ * <li>Getting next primary key</li>
+ * </ul>
+ * </p>
+ * 
+ * @author Aastik Sahu
+ */
 public class TestStudentModel {
 
+	/**
+	 * Main method to invoke test cases.
+	 *
+	 * @param args command-line arguments
+	 * @throws Exception in case of any error
+	 */
 	public static void main(String[] args) throws Exception {
 
-//		testNextPk();
-//		testAdd();
+//        testNextPk();
+//        testAdd();
 		testUpdate();
-//		testDelete();
-//		testfindByPk();
-//		testfindByEmail();
-//		testsearch();
-//		testlist();
+//        testDelete();
+//        testfindByPk();
+//        testfindByEmail();
+//        testsearch();
+//        testlist();
 	}
 
+	/**
+	 * Tests listing of all students from the database.
+	 *
+	 * @throws Exception if listing fails
+	 */
 	private static void testlist() throws Exception {
 
 		StudentBean bean = new StudentBean();
@@ -52,10 +81,14 @@ public class TestStudentModel {
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());
 			System.out.println("\t" + bean.getModifiedDatetime());
-
 		}
 	}
 
+	/**
+	 * Tests searching for students based on criteria.
+	 *
+	 * @throws Exception if search fails
+	 */
 	private static void testsearch() throws Exception {
 
 		StudentBean bean = new StudentBean();
@@ -64,15 +97,16 @@ public class TestStudentModel {
 
 		List list = new ArrayList();
 
-//		bean.setId(111);
-//		bean.setFirstName("Aditi");
-//		bean.setLastName("Shukala");
-//		bean.setDob(sdf.parse("2000-09-05"));
-//		bean.setGender("Female");
-//		bean.setMobileNo("8200133445  ");
-//		bean.setEmail("avi@gmail.com");
-//		bean.setCollegeId(10);
-//		bean.setCollegeName("SGSITS");
+		// Uncomment to set search criteria
+//        bean.setId(111);
+//        bean.setFirstName("Aditi");
+//        bean.setLastName("Shukala");
+//        bean.setDob(sdf.parse("2000-09-05"));
+//        bean.setGender("Female");
+//        bean.setMobileNo("8200133445");
+//        bean.setEmail("avi@gmail.com");
+//        bean.setCollegeId(10);
+//        bean.setCollegeName("SGSITS");
 
 		list = model.search(bean, 1, 10);
 
@@ -95,11 +129,15 @@ public class TestStudentModel {
 			System.out.print("\t" + bean.getModifiedBy());
 			System.out.print("\t" + bean.getCreatedDatetime());
 			System.out.println("\t" + bean.getModifiedDatetime());
-
 		}
 
 	}
 
+	/**
+	 * Tests finding a student by email.
+	 *
+	 * @throws Exception if email not found
+	 */
 	private static void testfindByEmail() throws Exception {
 
 		StudentBean bean = new StudentBean();
@@ -127,6 +165,11 @@ public class TestStudentModel {
 		}
 	}
 
+	/**
+	 * Tests finding a student by primary key (ID).
+	 *
+	 * @throws Exception if ID not found
+	 */
 	private static void testfindByPk() throws Exception {
 
 		StudentBean bean = new StudentBean();
@@ -154,6 +197,11 @@ public class TestStudentModel {
 		}
 	}
 
+	/**
+	 * Tests deletion of a student by ID.
+	 *
+	 * @throws Exception if deletion fails
+	 */
 	private static void testDelete() throws Exception {
 
 		StudentBean bean = new StudentBean();
@@ -162,9 +210,13 @@ public class TestStudentModel {
 		bean.setId(131);
 
 		model.delete(bean);
-
 	}
 
+	/**
+	 * Tests updating a student record.
+	 *
+	 * @throws Exception if update fails
+	 */
 	private static void testUpdate() throws Exception {
 
 		StudentBean bean = new StudentBean();
@@ -177,7 +229,7 @@ public class TestStudentModel {
 		bean.setGender("Male");
 		bean.setMobileNo("9669866628");
 		bean.setEmail("aastik@gmail.com");
-		//bean.setCollegeId(1);
+		// bean.setCollegeId(1);
 		bean.setCollegeName("IPS Academy");
 		bean.setCreatedBy("Faculty");
 		bean.setModifiedBy("Faculty");
@@ -186,9 +238,13 @@ public class TestStudentModel {
 		bean.setId(131);
 
 		model.update(bean);
-
 	}
 
+	/**
+	 * Tests adding a new student.
+	 *
+	 * @throws Exception if insertion fails
+	 */
 	private static void testAdd() throws Exception {
 
 		StudentBean bean = new StudentBean();
@@ -201,7 +257,7 @@ public class TestStudentModel {
 		bean.setGender("Male");
 		bean.setMobileNo("9669866628");
 		bean.setEmail("aastik@gmail.com");
-		//bean.setCollegeId(1);
+		// bean.setCollegeId(1);
 		bean.setCollegeName("IPS Academy");
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
@@ -209,9 +265,13 @@ public class TestStudentModel {
 		bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
 
 		model.add(bean);
-
 	}
 
+	/**
+	 * Tests getting the next available primary key.
+	 *
+	 * @throws Exception if failed
+	 */
 	private static void testNextPk() throws Exception {
 
 		StudentModel model = new StudentModel();

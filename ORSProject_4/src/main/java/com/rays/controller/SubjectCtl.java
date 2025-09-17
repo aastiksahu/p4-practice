@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.SubjectBean;
 import com.rays.exception.ApplicationException;
@@ -28,6 +30,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "SubjectCtl", urlPatterns = { "/ctl/SubjectCtl" })
 public class SubjectCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(SubjectCtl.class);
 
 	/**
 	 * Loads Course data to preload into the form dropdown.
@@ -36,14 +40,21 @@ public class SubjectCtl extends BaseCtl {
 	 */
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+		log.debug("SubjectCtl Preload Method Started");
+		
 		CourseModel model = new CourseModel();
 		try {
 			List courseList = model.list();
 			request.setAttribute("courseList", courseList);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 			return;
 		}
+		
+		log.debug("SubjectCtl Preload Method Ended");
 	}
 
 	/**
@@ -54,6 +65,9 @@ public class SubjectCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("SubjectCtl Validate Method Started");
+		
 		boolean pass = true;
 
 		if (DataValidator.isNull(request.getParameter("name"))) {
@@ -71,6 +85,8 @@ public class SubjectCtl extends BaseCtl {
 			pass = false;
 		}
 
+		log.debug("SubjectCtl Validate Method Ended");
+		
 		return pass;
 	}
 
@@ -82,6 +98,9 @@ public class SubjectCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("SubjectCtl Populate Bean Method Started");
+		
 		SubjectBean bean = new SubjectBean();
 
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
@@ -90,6 +109,8 @@ public class SubjectCtl extends BaseCtl {
 		bean.setDescription(DataUtility.getString(request.getParameter("description")));
 
 		populateDTO(bean, request);
+		
+		log.debug("SubjectCtl Populate Bean Method Ended");
 
 		return bean;
 	}
@@ -105,6 +126,8 @@ public class SubjectCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("SubjectCtl Do Get Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -117,12 +140,15 @@ public class SubjectCtl extends BaseCtl {
 			try {
 				bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
-
+		log.debug("SubjectCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -137,6 +163,8 @@ public class SubjectCtl extends BaseCtl {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("SubjectCtl Do Post Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -152,9 +180,13 @@ public class SubjectCtl extends BaseCtl {
 				long pk = model.add(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Subject added successfully", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Subject Name already exists", request);
@@ -169,9 +201,13 @@ public class SubjectCtl extends BaseCtl {
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Subject updated successfully", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Subject Name already exists", request);
@@ -180,11 +216,12 @@ public class SubjectCtl extends BaseCtl {
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.SUBJECT_LIST_CTL, request, response);
 			return;
+			
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.SUBJECT_CTL, request, response);
 			return;
 		}
-
+		log.debug("SubjectCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

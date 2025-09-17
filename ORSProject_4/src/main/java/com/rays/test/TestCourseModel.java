@@ -9,27 +9,57 @@ import java.util.List;
 import com.rays.bean.CourseBean;
 import com.rays.model.CourseModel;
 
+/**
+ * Test class for {@link CourseModel} to perform unit testing on CRUD
+ * operations.
+ * <p>
+ * It includes methods to test:
+ * <ul>
+ * <li>Add Course</li>
+ * <li>Update Course</li>
+ * <li>Delete Course</li>
+ * <li>Find Course by Primary Key</li>
+ * <li>Find Course by Name</li>
+ * <li>Search Courses</li>
+ * <li>List all Courses</li>
+ * <li>Get Next Primary Key</li>
+ * </ul>
+ * </p>
+ * 
+ * @author Aastik Sahu
+ */
 public class TestCourseModel {
 
+	/**
+	 * Main method to run all test cases.
+	 * 
+	 * @param args command line arguments
+	 * @throws Exception if any exception occurs
+	 */
 	public static void main(String[] args) throws Exception {
 
-//		testNextPk();
-//		testAdd();
-//		testUpdate();
+		testNextPk();
+		testAdd();
+		testUpdate();
 		testDelete();
-//		testfindByPk();
-//		testfindByName();
-//		testsearch();
-//		testlist();
+		testfindByPk();
+		testfindByName();
+		testsearch();
+		testlist();
 	}
 
+	/**
+	 * Tests the list method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testlist() throws Exception {
-		
+
 		CourseBean bean = new CourseBean();
 		CourseModel model = new CourseModel();
 
 		List list = new ArrayList();
-		
+
 		list = model.list();
 
 		Iterator it = list.iterator();
@@ -50,6 +80,11 @@ public class TestCourseModel {
 		}
 	}
 
+	/**
+	 * Tests the search method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testsearch() throws Exception {
 
 		CourseBean bean = new CourseBean();
@@ -83,6 +118,11 @@ public class TestCourseModel {
 
 	}
 
+	/**
+	 * Tests the findByName method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testfindByName() throws Exception {
 
 		CourseBean bean = new CourseBean();
@@ -105,6 +145,11 @@ public class TestCourseModel {
 		}
 	}
 
+	/**
+	 * Tests the findByPk method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testfindByPk() throws Exception {
 
 		CourseBean bean = new CourseBean();
@@ -127,6 +172,11 @@ public class TestCourseModel {
 		}
 	}
 
+	/**
+	 * Tests the delete method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testDelete() throws Exception {
 
 		CourseBean bean = new CourseBean();
@@ -138,6 +188,11 @@ public class TestCourseModel {
 
 	}
 
+	/**
+	 * Tests the update method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testUpdate() throws Exception {
 
 		CourseBean bean = new CourseBean();
@@ -156,6 +211,11 @@ public class TestCourseModel {
 
 	}
 
+	/**
+	 * Tests the add method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testAdd() throws Exception {
 
 		CourseBean bean = new CourseBean();
@@ -173,6 +233,11 @@ public class TestCourseModel {
 
 	}
 
+	/**
+	 * Tests the nextPk method of {@link CourseModel}.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testNextPk() throws Exception {
 
 		CourseModel model = new CourseModel();

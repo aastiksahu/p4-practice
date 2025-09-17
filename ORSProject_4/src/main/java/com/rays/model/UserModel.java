@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.UserBean;
 import com.rays.exception.ApplicationException;
 import com.rays.exception.DatabaseException;
@@ -28,6 +30,8 @@ import com.rays.util.JDBCDataSource;
  * @version 1.0
  */
 public class UserModel {
+	
+	Logger log = Logger.getLogger(UserModel.class);
 
 	/**
 	 * Returns the next primary key for User table.
@@ -36,6 +40,8 @@ public class UserModel {
 	 * @throws DatabaseException if any da tabase error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
+		
+		log.debug("UserModel nextPk() Method Started");
 
 		Connection conn = null;
 		int pk = 0;
@@ -61,6 +67,8 @@ public class UserModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("UserModel nextPk() Method Ended");
 		return pk + 1;
 	}
 
@@ -73,6 +81,8 @@ public class UserModel {
 	 * @throws DuplicateRecordException if the login ID already exists
 	 */
 	public long add(UserBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("UserModel add() Method Started");
 
 		Connection conn = null;
 		int pk = 0;
@@ -121,6 +131,8 @@ public class UserModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("UserModel add() Method Ended");
 		return pk;
 
 	}
@@ -133,6 +145,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public void update(UserBean bean) throws DuplicateRecordException, ApplicationException {
+		
+		log.debug("UserModel update() Method Started");
 
 		Connection conn = null;
 
@@ -182,6 +196,7 @@ public class UserModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("UserModel update() Method Ended");
 
 	}
 	
@@ -192,6 +207,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public void delete(UserBean bean) throws ApplicationException {
+		
+		log.debug("UserModel delete() Method Started");
 
 		Connection conn = null;
 
@@ -225,6 +242,7 @@ public class UserModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("UserModel delete() Method Ended");
 
 	}
 
@@ -236,6 +254,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public UserBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("UserModel findByPk() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_user where id = ?");
 		UserBean bean = null;
@@ -274,6 +294,8 @@ public class UserModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("UserModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -285,6 +307,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public UserBean findByLogin(String Login) throws ApplicationException {
+		
+		log.debug("UserModel findByLogin() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_user where login = ?");
 		UserBean bean = null;
@@ -324,6 +348,8 @@ public class UserModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("UserModel findByLogin() Method Ended");
 		return bean;
 	}
 
@@ -337,6 +363,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public List search(UserBean bean, int pageNo, int PageSize) throws ApplicationException {
+		
+		log.debug("UserModel search() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_user where 1=1");
 		// System.out.println(bean);
@@ -413,6 +441,8 @@ public class UserModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("UserModel search() Method Ended");
 		return list;
 
 	}
@@ -430,6 +460,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public UserBean authenticate(String login, String password) throws ApplicationException {
+		
+		log.debug("UserModel authenticate() Method Started");
 
 		Connection conn = null;
 		UserBean bean = null;
@@ -465,6 +497,8 @@ public class UserModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("UserModel authenticate() Method Ended");
 		return bean;
 	}
 
@@ -480,6 +514,8 @@ public class UserModel {
 	 */
 	public boolean changePassword(Long id, String oldPassword, String newPassword)
 			throws RecordNotFoundException, ApplicationException {
+		
+		log.debug("UserModel changePassword() Method Started");
 
 		boolean flag = false;
 
@@ -513,6 +549,7 @@ public class UserModel {
 
 		EmailUtility.sendMail(msg);
 
+		log.debug("UserModel changePassword() Method Ended");
 		return flag;
 	}
 
@@ -525,6 +562,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public boolean forgetPassword(String login) throws RecordNotFoundException, ApplicationException {
+		
+		log.debug("UserModel forgetPassword() Method Started");
 
 		UserBean userData = findByLogin(login);
 		boolean flag = false;
@@ -553,6 +592,8 @@ public class UserModel {
 		} catch (Exception e) {
 			throw new ApplicationException("Please check your internet connection..!!");
 		}
+		
+		log.debug("UserModel forgetPassword() Method Ended");
 		return flag;
 	}
 
@@ -565,6 +606,8 @@ public class UserModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public long registerUser(UserBean bean) throws DuplicateRecordException, ApplicationException {
+		
+		log.debug("UserModel registerUser() Method Started");
 
 		long pk = add(bean);
 
@@ -583,6 +626,7 @@ public class UserModel {
 
 		EmailUtility.sendMail(msg);
 
+		log.debug("UserModel registerUser() Method Ended");
 		return pk;
 	}
 

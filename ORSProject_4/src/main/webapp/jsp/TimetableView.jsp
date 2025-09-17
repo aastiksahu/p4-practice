@@ -24,18 +24,18 @@
 			scope="request"></jsp:useBean>
 
 		<%
-			List<TimeTableBean> courseList = (List<TimeTableBean>) request.getAttribute("courseList");
-			List<TimeTableBean> subjectList = (List<TimeTableBean>) request.getAttribute("subjectList");
+		List<TimeTableBean> courseList = (List<TimeTableBean>) request.getAttribute("courseList");
+		List<TimeTableBean> subjectList = (List<TimeTableBean>) request.getAttribute("subjectList");
 		%>
 
 		<div align="center">
 			<h1 align="center" style="margin-bottom: -15; color: navy">
 				<%
-					if (bean != null && bean.getId() > 0) {
+				if (bean != null && bean.getId() > 0) {
 				%>Update<%
-					} else {
+				} else {
 				%>Add<%
-					}
+				}
 				%>
 				Timetable
 			</h1>
@@ -74,24 +74,25 @@
 					<th align="left">Semester<span style="color: red">*</span></th>
 					<td>
 						<%
-							HashMap<String, String> map = new HashMap<String, String>();
-							map.put("1", "1");
-							map.put("2", "2");
-							map.put("3", "3");
-							map.put("4", "4");
-							map.put("5", "5");
-							map.put("6", "6");
-							map.put("7", "7");
-							map.put("8", "8");
+						HashMap<String, String> map = new HashMap<String, String>();
+						map.put("1", "1");
+						map.put("2", "2");
+						map.put("3", "3");
+						map.put("4", "4");
+						map.put("5", "5");
+						map.put("6", "6");
+						map.put("7", "7");
+						map.put("8", "8");
 
-							String htmlList = HTMLUtility.getList("semester", bean.getSemester(), map);
+						String htmlList = HTMLUtility.getList("semester", bean.getSemester(), map);
 						%> <%=htmlList%>
 					</td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("semester", request)%></font></td>
 				</tr>
 				<tr>
 					<th align="left">Exam Date<span style="color: red">*</span></th>
-					<td><input type="text" id="udatee" name="examDate" placeholder="Select Exam Date"
+					<td><input type="text" id="udatee" name="examDate"
+						placeholder="Select Exam Date"
 						value="<%=DataUtility.getDateString(bean.getExamDate())%>"></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("examDate", request)%></font></td>
 				</tr>
@@ -99,12 +100,12 @@
 					<th align="left">Exam Time<span style="color: red">*</span></th>
 					<td>
 						<%
-							LinkedHashMap<String, String> map1 = new LinkedHashMap<String, String>();
-							map1.put("08:00 AM to 11:00 AM", "08:00 AM to 11:00 AM");
-							map1.put("12:00 PM to 03:00 PM", "12:00 PM to 03:00 PM");
-							map1.put("04:00 PM to 07:00 PM", "04:00 PM to 07:00 PM");
+						LinkedHashMap<String, String> map1 = new LinkedHashMap<String, String>();
+						map1.put("08:00 AM to 11:00 AM", "08:00 AM to 11:00 AM");
+						map1.put("12:00 PM to 03:00 PM", "12:00 PM to 03:00 PM");
+						map1.put("04:00 PM to 07:00 PM", "04:00 PM to 07:00 PM");
 
-							String htmlList1 = HTMLUtility.getList("examTime", bean.getExamTime(), map1);
+						String htmlList1 = HTMLUtility.getList("examTime", bean.getExamTime(), map1);
 						%> <%=htmlList1%>
 					</td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("examTime", request)%></font></td>
@@ -112,10 +113,10 @@
 
 				<tr>
 					<th align="left">Description<span style="color: red">*</span></th>
-					<td align="center">
-                        <textarea style="width: 170px; resize: none;" name="description" rows="3"
-                            placeholder="Enter Short description"><%=DataUtility.getStringData(bean.getDescription()).trim()%></textarea>
-                    </td>
+					<td align="center"><textarea
+							style="width: 170px; resize: none;" name="description" rows="3"
+							placeholder="Enter Short description"><%=DataUtility.getStringData(bean.getDescription()).trim()%></textarea>
+					</td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("description", request)%></font></td>
 				</tr>
 				<tr>
@@ -125,22 +126,23 @@
 				<tr>
 					<th></th>
 					<%
-						if (bean != null && bean.getId() > 0) {
+					if (bean != null && bean.getId() > 0) {
 					%>
 					<td align="left" colspan="2"><input type="submit"
 						name="operation" value="<%=TimetableCtl.OP_UPDATE%>"> <input
 						type="submit" name="operation" value="<%=TimetableCtl.OP_CANCEL%>">
 						<%
-							} else {
-					%>
+						} else {
+						%>
 					<td align="left" colspan="2"><input type="submit"
 						name="operation" value="<%=TimetableCtl.OP_SAVE%>"> <input
 						type="submit" name="operation" value="<%=TimetableCtl.OP_RESET%>">
 						<%
-							}
-					%>
+						}
+						%>
 			</table>
 		</div>
 	</form>
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>

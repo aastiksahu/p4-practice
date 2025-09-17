@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.UserBean;
 import com.rays.exception.ApplicationException;
@@ -30,6 +32,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "MyProfileCtl", urlPatterns = "/ctl/MyProfileCtl")
 public class MyProfileCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(MyProfileCtl.class);
 
 	public static final String OP_CHANGE_MY_PASSWORD = "Change Password";
 
@@ -42,6 +46,8 @@ public class MyProfileCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("MyProfileCtl Validate Method Started");
 
 		boolean pass = true;
 
@@ -88,6 +94,8 @@ public class MyProfileCtl extends BaseCtl {
 			pass = false;
 		}
 
+		log.debug("MyProfileCtl Validate Method Ended");
+		
 		return pass;
 	}
 
@@ -99,6 +107,8 @@ public class MyProfileCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("MyProfileCtl Populate Bean Method Started");
 
 		UserBean bean = new UserBean();
 
@@ -118,6 +128,8 @@ public class MyProfileCtl extends BaseCtl {
 
 		populateDTO(bean, request);
 
+		log.debug("MyProfileCtl Populate Bean Method Ended");
+		
 		return bean;
 	}
 
@@ -132,6 +144,8 @@ public class MyProfileCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("MyProfileCtl Do Get Method Started");
 
 		HttpSession session = request.getSession(true);
 		UserBean user = (UserBean) session.getAttribute("user");
@@ -143,12 +157,15 @@ public class MyProfileCtl extends BaseCtl {
 			try {
 				UserBean bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
+		log.debug("MyProfileCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -165,6 +182,8 @@ public class MyProfileCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("MyProfileCtl Do Post Method Started");
 
 		HttpSession session = request.getSession(true);
 
@@ -177,6 +196,7 @@ public class MyProfileCtl extends BaseCtl {
 
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 			UserBean bean = (UserBean) populateBean(request);
+			
 			try {
 				if (id > 0) {
 					user.setFirstName(bean.getFirstName());
@@ -188,18 +208,23 @@ public class MyProfileCtl extends BaseCtl {
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Profile has been updated Successfully. ", request);
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Login id already exists", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
+			
 		} else if (OP_CHANGE_MY_PASSWORD.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.CHANGE_PASSWORD_CTL, request, response);
 			return;
 		}
+		log.debug("MyProfileCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

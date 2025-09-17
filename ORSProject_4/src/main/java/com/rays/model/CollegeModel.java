@@ -34,7 +34,7 @@ public class CollegeModel {
 	 * @throws DatabaseException if a database access error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
-		log.debug("CollegeModel nextPk() started");
+		log.debug("CollegeModel nextPk() Method Started");
 
 		Connection conn = null;
 		int pk = 0;
@@ -56,7 +56,7 @@ public class CollegeModel {
 			JDBCDataSource.closeConnection(conn);
 		}
 
-		log.debug("CollegeModel nextPk() ended");
+		log.debug("CollegeModel nextPk() Method Ended");
 		return pk + 1;
 	}
 
@@ -69,6 +69,9 @@ public class CollegeModel {
 	 * @throws DuplicateRecordException if a duplicate college name exists
 	 */
 	public long add(CollegeBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("CollegeModel add() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -113,6 +116,8 @@ public class CollegeModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("CollegeModel add() Method Ended");
 		return pk;
 	}
 
@@ -124,6 +129,9 @@ public class CollegeModel {
 	 * @throws DuplicateRecordException if a duplicate college name exists
 	 */
 	public void update(CollegeBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("CollegeModel update() Method Started");
+		
 		Connection conn = null;
 
 		CollegeBean existBean = findByName(bean.getName());
@@ -167,6 +175,7 @@ public class CollegeModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("CollegeModel update() Method Ended");
 	}
 
 	/**
@@ -176,6 +185,9 @@ public class CollegeModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public void delete(CollegeBean bean) throws ApplicationException {
+		
+		log.debug("CollegeModel delete() Method Started");
+		
 		Connection conn = null;
 
 		try {
@@ -201,6 +213,7 @@ public class CollegeModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("CollegeModel delete() Method Ended");
 	}
 
 	/**
@@ -211,6 +224,9 @@ public class CollegeModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public CollegeBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("CollegeModel findByPk() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_college where id = ?");
 		CollegeBean bean = null;
 		Connection conn = null;
@@ -241,6 +257,7 @@ public class CollegeModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("CollegeModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -252,6 +269,9 @@ public class CollegeModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public CollegeBean findByName(String name) throws ApplicationException {
+		
+		log.debug("CollegeModel findByName() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_college where name = ?");
 		CollegeBean bean = null;
 		Connection conn = null;
@@ -283,6 +303,7 @@ public class CollegeModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("CollegeModel findByName() Method Ended");
 		return bean;
 	}
 
@@ -296,6 +317,9 @@ public class CollegeModel {
 	 * @throws ApplicationException if an application-level exception occurs
 	 */
 	public List search(CollegeBean bean, int pageNo, int pageSize) throws ApplicationException {
+		
+		log.debug("CollegeModel search() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_college where 1=1");
 
 		if (bean != null) {
@@ -357,6 +381,7 @@ public class CollegeModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("CollegeModel search() Method Ended");
 		return list;
 	}
 

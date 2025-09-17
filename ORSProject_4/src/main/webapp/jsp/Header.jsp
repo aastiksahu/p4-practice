@@ -24,11 +24,19 @@
 	<%
 	if (user != null) {
 	%>
-	<h3>
-		Hi,
-		<%=user.getFirstName()%>
-		(<%=session.getAttribute("role")%>)
-	</h3>
+	
+	<table width="100%" style="border-collapse: collapse;">
+    <tr>
+        <td style="text-align: left; vertical-align: middle;">
+            <h3>
+                Hi, <%=user.getFirstName()%> (<%=session.getAttribute("role")%>)
+            </h3>
+        </td>
+        <td style="text-align: right; vertical-align: middle;">
+            <img src="<%=ORSView.APP_CONTEXT%>/img/customLogo.jpg" width="175" height="50" alt="Logo">
+        </td>
+    </tr>
+</table>
 	
 	<%
  	if (user.getRoleId() == RoleBean.ADMIN) {
@@ -145,9 +153,18 @@
 	<%
 	} else {
 	%>
-	<h3>Hi, Guest</h3>
-	<a href="<%=ORSView.WELCOME_CTL%>"><b>Welcome</b></a> |
-	<a href="<%=ORSView.LOGIN_CTL%>"><b>Login</b></a>
+	<table width="100%" style="border-collapse: collapse;">
+    <tr>
+        <td style="text-align: left; vertical-align: middle;">
+            <h3>Hi, Guest</h3>
+            <a href="<%=ORSView.WELCOME_CTL%>"><b>Welcome</b></a> |
+            <a href="<%=ORSView.LOGIN_CTL%>"><b>Login</b></a>
+        </td>
+        <td style="text-align: right; vertical-align: middle;">
+            <img src="<%=ORSView.APP_CONTEXT%>/img/customLogo.jpg" width="175" height="50" alt="Logo">
+        </td>
+    </tr>
+</table>
 	<%
 	}
 	%>

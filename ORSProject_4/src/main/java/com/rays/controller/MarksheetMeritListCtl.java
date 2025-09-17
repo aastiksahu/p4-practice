@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.MarksheetBean;
 import com.rays.exception.ApplicationException;
 import com.rays.model.MarksheetModel;
@@ -27,6 +29,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "MarksheetMeritListCtl", urlPatterns = { "/ctl/MarksheetMeritListCtl" })
 public class MarksheetMeritListCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(MarksheetMeritListCtl.class);
 
 	/**
 	 * Handles HTTP GET method to fetch the merit list of marksheets. Sets the list,
@@ -39,6 +43,8 @@ public class MarksheetMeritListCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("MarksheetMeritListCtl Do Get Method Started");
 
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
@@ -56,9 +62,11 @@ public class MarksheetMeritListCtl extends BaseCtl {
 			ServletUtility.setPageNo(pageNo, request);
 			ServletUtility.setPageSize(pageSize, request);
 
+			log.debug("MarksheetMeritListCtl Do Get Method Ended");
 			ServletUtility.forward(getView(), request, response);
 
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 			ServletUtility.handleException(e, request, response);
 			return;
@@ -75,6 +83,8 @@ public class MarksheetMeritListCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("MarksheetMeritListCtl Do Post Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -82,6 +92,8 @@ public class MarksheetMeritListCtl extends BaseCtl {
 			ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
 			return;
 		}
+		
+		log.debug("MarksheetMeritListCtl Do Post Method Ended");
 	}
 
 	/**

@@ -13,8 +13,7 @@
 
 		<%@ include file="Header.jsp"%>
 
-		<jsp:useBean id="bean" class="com.rays.bean.UserBean"
-			scope="request"></jsp:useBean>
+		<jsp:useBean id="bean" class="com.rays.bean.UserBean" scope="request"></jsp:useBean>
 
 		<div align="center">
 			<h1 align="center" style="margin-bottom: -15; color: navy">User
@@ -80,7 +79,8 @@
 				</tr>
 				<tr>
 					<th align="left">Date of Birth<span style="color: red">*</span></th>
-					<td><input type="text" name="dob" id="udate" placeholder="Select Your Date Of Birth"
+					<td><input type="text" name="dob" id="udate"
+						placeholder="Select Your Date Of Birth"
 						value="<%=DataUtility.getStringData(bean.getDob())%>"></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("dob", request)%></font></td>
 				</tr>
@@ -88,11 +88,11 @@
 					<th align="left">Gender<span style="color: red">*</span></th>
 					<td>
 						<%
-							HashMap<String, String> map = new HashMap<String, String>();
-							map.put("Female", "Female");
-							map.put("Male", "Male");
+						HashMap<String, String> map = new HashMap<String, String>();
+						map.put("Female", "Female");
+						map.put("Male", "Male");
 
-							String htmlList = HTMLUtility.getList("gender", bean.getGender(), map);
+						String htmlList = HTMLUtility.getList("gender", bean.getGender(), map);
 						%> <%=htmlList%>
 
 					</td>
@@ -119,5 +119,6 @@
 			</table>
 		</div>
 	</form>
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>

@@ -9,8 +9,22 @@ import com.rays.bean.DropdownListBean;
 import com.rays.bean.RoleBean;
 import com.rays.model.RoleModel;
 
+/**
+ * Utility class for generating HTML components like dropdown lists. Mainly used
+ * in views (JSP/Servlet) to populate dynamic select fields.
+ * 
+ * @author Aastik Sahu
+ */
 public class HTMLUtility {
 
+	/**
+	 * Generates an HTML {@code <select>} dropdown from a {@code HashMap}.
+	 *
+	 * @param name        the name of the select element
+	 * @param selectedVal the key to be pre-selected
+	 * @param map         the map containing option key-value pairs
+	 * @return HTML string representing the dropdown
+	 */
 	public static String getList(String name, String selectedVal, HashMap<String, String> map) {
 
 		StringBuffer sb = new StringBuffer(
@@ -33,14 +47,16 @@ public class HTMLUtility {
 		return sb.toString();
 	}
 
+	/**
+	 * Generates an HTML {@code <select>} dropdown from a {@code List} of
+	 * {@link DropdownListBean}.
+	 *
+	 * @param name        the name of the select element
+	 * @param selectedVal the key to be pre-selected
+	 * @param list        the list of dropdown items
+	 * @return HTML string representing the dropdown
+	 */
 	public static String getList(String name, String selectedVal, List list) {
-
-//		BaseBean bean = (BaseBean) list.get(0);
-//
-//		System.out.println("my key => " + bean.getKey());
-//		System.out.println("my value => " + bean.getValue());
-
-		// Collections.sort(list);
 
 		List<DropdownListBean> dd = (List<DropdownListBean>) list;
 
@@ -66,6 +82,9 @@ public class HTMLUtility {
 		return sb.toString();
 	}
 
+	/**
+	 * Test method to demonstrate dropdown generation from {@code HashMap}.
+	 */
 	public static void testGetListByMap() {
 
 		HashMap<String, String> map = new HashMap<>();
@@ -79,6 +98,12 @@ public class HTMLUtility {
 		System.out.println(htmlSelectFromMap);
 	}
 
+	/**
+	 * Test method to demonstrate dropdown generation from {@code List} using
+	 * {@link RoleModel}.
+	 * 
+	 * @throws Exception if data retrieval fails
+	 */
 	public static void testGetListByList() throws Exception {
 
 		RoleModel model = new RoleModel();
@@ -91,11 +116,18 @@ public class HTMLUtility {
 
 		System.out.println(htmlSelectFromList);
 	}
+
+	/**
+	 * Main method to run utility test methods.
+	 *
+	 * @param args command line arguments
+	 * @throws Exception in case of errors
+	 */
 	public static void main(String[] args) throws Exception {
 
 		testGetListByMap();
 
-		//testGetListByList();
+		// testGetListByList();
 
 	}
 

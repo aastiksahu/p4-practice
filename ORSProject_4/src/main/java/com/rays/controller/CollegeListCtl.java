@@ -14,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.CollegeBean;
 import com.rays.exception.ApplicationException;
@@ -31,6 +33,8 @@ import com.rays.util.ServletUtility;
 @WebServlet(name = "CollegeListCtl", urlPatterns = { "/ctl/CollegeListCtl" })
 public class CollegeListCtl extends BaseCtl {
 
+	Logger log = Logger.getLogger(CollegeListCtl.class);
+
 	/**
 	 * Loads the list of all colleges and sets it in the request scope for dropdowns
 	 * or preloading data.
@@ -40,15 +44,21 @@ public class CollegeListCtl extends BaseCtl {
 	@Override
 	protected void preload(HttpServletRequest request) {
 
+		log.debug("CollegeListCtl Preload Method Started");
+
 		CollegeModel collegeModel = new CollegeModel();
 
 		try {
 			List collegeList = collegeModel.list();
 			request.setAttribute("collegeList", collegeList);
+
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 			return;
 		}
+
+		log.debug("CollegeListCtl Preload Method Ended");
 	}
 
 	/**
@@ -60,11 +70,14 @@ public class CollegeListCtl extends BaseCtl {
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 
+		log.debug("CollegeListCtl Populated Bean Method Started");
+
 		CollegeBean bean = new CollegeBean();
 
 		bean.setId(DataUtility.getLong(request.getParameter("collegeId")));
 		bean.setCity(DataUtility.getString(request.getParameter("city")));
 
+		log.debug("CollegeListCtl Populated Bean Method Ended");
 		return bean;
 	}
 
@@ -79,6 +92,8 @@ public class CollegeListCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		log.debug("CollegeListCtl Do Get Method Started");
 
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
@@ -100,9 +115,13 @@ public class CollegeListCtl extends BaseCtl {
 			ServletUtility.setPageSize(pageSize, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("CollegeListCtl Do Get Method Ended");
 			ServletUtility.forward(getView(), request, response);
+
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
 			return;
 		}
 	}
@@ -119,6 +138,8 @@ public class CollegeListCtl extends BaseCtl {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		log.debug("CollegeListCtl Do Post Method Started");
 
 		List list = null;
 		List next = null;
@@ -194,9 +215,13 @@ public class CollegeListCtl extends BaseCtl {
 			ServletUtility.setPageSize(pageSize, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("CollegeListCtl Do Post Method Ended");
 			ServletUtility.forward(getView(), request, response);
+
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
 			return;
 		}
 	}

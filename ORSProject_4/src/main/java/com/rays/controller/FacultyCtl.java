@@ -16,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.FacultyBean;
 import com.rays.exception.ApplicationException;
@@ -40,6 +42,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "FacultyCtl", urlPatterns = "/ctl/FacultyCtl")
 public class FacultyCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(FacultyCtl.class);
 
 	/**
 	 * Loads the list of colleges, subjects, and courses to be shown in the form
@@ -49,6 +53,8 @@ public class FacultyCtl extends BaseCtl {
 	 */
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+		log.debug("FacultyCtl Preload Method Started");
 
 		CollegeModel collegeModel = new CollegeModel();
 		SubjectModel subjectModel = new SubjectModel();
@@ -65,8 +71,11 @@ public class FacultyCtl extends BaseCtl {
 			request.setAttribute("courseList", courseList);
 
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 		}
+		
+		log.debug("FacultyCtl Preload Method Ended");
 	}
 
 	/**
@@ -77,6 +86,8 @@ public class FacultyCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("FacultyCtl Validate Method Started");
 
 		boolean pass = true;
 
@@ -142,6 +153,8 @@ public class FacultyCtl extends BaseCtl {
 			request.setAttribute("subjectId", PropertyReader.getValue("error.require", "Subject Name"));
 			pass = false;
 		}
+		
+		log.debug("FacultyCtl Validate Method Ended");
 
 		return pass;
 	}
@@ -154,6 +167,8 @@ public class FacultyCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("FacultyCtl Populate Bean Method Started");
 
 		FacultyBean bean = new FacultyBean();
 
@@ -170,6 +185,8 @@ public class FacultyCtl extends BaseCtl {
 
 		populateDTO(bean, request);
 
+		log.debug("FacultyCtl Populate Bean Method Ended");
+
 		return bean;
 	}
 
@@ -181,6 +198,9 @@ public class FacultyCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("FacultyCtl Do Get Method Started");
+
 
 		long id = DataUtility.getLong(request.getParameter("id"));
 
@@ -190,12 +210,16 @@ public class FacultyCtl extends BaseCtl {
 			try {
 				FacultyBean bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
+		
+		log.debug("FacultyCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -207,6 +231,8 @@ public class FacultyCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("FacultyCtl Do Post Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -216,14 +242,18 @@ public class FacultyCtl extends BaseCtl {
 
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 			FacultyBean bean = (FacultyBean) populateBean(request);
+			
 			try {
 				long pk = model.add(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Faculty added successfully", request);
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Email already exists", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
@@ -236,10 +266,13 @@ public class FacultyCtl extends BaseCtl {
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Faculty updated successfully", request);
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Email already exists", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
@@ -247,10 +280,13 @@ public class FacultyCtl extends BaseCtl {
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.FACULTY_LIST_CTL, request, response);
 			return;
+			
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.FACULTY_CTL, request, response);
 			return;
 		}
+		
+		log.debug("FacultyCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

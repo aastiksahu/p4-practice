@@ -27,9 +27,8 @@ import javax.servlet.http.HttpSession;
 import com.rays.util.ServletUtility;
 
 /**
- * FrontController Filter to check user session before accessing protected
- * resources. Redirects to login page if session is expired or user is not
- * logged in.
+ * Main Controller Perform Session Checking and Login Operation Before Calling
+ * Any Controller It Prevents Any User To Access Application Without Login.
  * 
  * @author Aastik Sahu
  */
@@ -75,6 +74,7 @@ public class FrontController implements Filter {
 			req.setAttribute("error", "your session is expired. Please Login again!!");
 			ServletUtility.forward(ORSView.LOGIN_VIEW, req, resp);
 			return;
+			
 		} else {
 			chain.doFilter(request, response);
 		}

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.RoleBean;
 import com.rays.exception.ApplicationException;
 import com.rays.exception.DatabaseException;
@@ -19,6 +21,8 @@ import com.rays.util.JDBCDataSource;
  * @author Aastik Sahu
  */
 public class RoleModel {
+	
+	Logger log = Logger.getLogger(RoleModel.class);
 
 	/**
 	 * Gets the next primary key from database.
@@ -27,6 +31,9 @@ public class RoleModel {
 	 * @throws DatabaseException if any database error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
+		
+		log.debug("RoleModel nextPk() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -46,6 +53,8 @@ public class RoleModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("RoleModel nextPk() Method Ended");
 		return pk + 11111;
 	}
 
@@ -58,6 +67,9 @@ public class RoleModel {
 	 * @throws DuplicateRecordException if role name already exists
 	 */
 	public long add(RoleBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("RoleModel add() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -97,6 +109,8 @@ public class RoleModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("RoleModel add() Method Ended");
 		return pk;
 	}
 
@@ -108,6 +122,9 @@ public class RoleModel {
 	 * @throws DuplicateRecordException if role already exists with the same name
 	 */
 	public void update(RoleBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("RoleModel update() Method Started");
+		
 		Connection conn = null;
 
 		RoleBean beanExist = findByName(bean.getName());
@@ -146,6 +163,8 @@ public class RoleModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("RoleModel update() Method Ended");
 	}
 
 	/**
@@ -155,6 +174,9 @@ public class RoleModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public void delete(RoleBean bean) throws ApplicationException {
+		
+		log.debug("RoleModel delete() Method Started");
+		
 		Connection conn = null;
 
 		try {
@@ -180,6 +202,8 @@ public class RoleModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("RoleModel delete() Method Ended");
 	}
 
 	/**
@@ -190,6 +214,9 @@ public class RoleModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public RoleBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("RoleModel findByPk() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_role where id = ?");
 		RoleBean bean = null;
 		Connection conn = null;
@@ -217,6 +244,8 @@ public class RoleModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("RoleModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -228,6 +257,9 @@ public class RoleModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public RoleBean findByName(String Name) throws ApplicationException {
+		
+		log.debug("RoleModel findByName() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_role where name = ?");
 		RoleBean bean = null;
 		Connection conn = null;
@@ -255,6 +287,8 @@ public class RoleModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("RoleModel findByName() Method Ended");
 		return bean;
 	}
 
@@ -268,6 +302,9 @@ public class RoleModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public List<RoleBean> search(RoleBean bean, int pageNo, int PageSize) throws ApplicationException {
+		
+		log.debug("RoleModel search() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_role where 1=1");
 
 		if (bean != null) {
@@ -316,6 +353,8 @@ public class RoleModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("RoleModel search() Method Ended");
 		return list;
 	}
 

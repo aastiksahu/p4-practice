@@ -18,6 +18,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.MarksheetBean;
 import com.rays.exception.ApplicationException;
@@ -35,6 +37,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "GetMarksheetCtl", urlPatterns = { "/ctl/GetMarksheetCtl" })
 public class GetMarksheetCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(GetMarksheetCtl.class);
 
 	/**
 	 * Validates the input parameters of the request. Checks if the roll number is
@@ -45,6 +49,8 @@ public class GetMarksheetCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("GetMarksheetCtl Validate Method Started");
 
 		boolean pass = true;
 
@@ -52,6 +58,8 @@ public class GetMarksheetCtl extends BaseCtl {
 			request.setAttribute("rollNo", PropertyReader.getValue("error.require", "Roll Number"));
 			pass = false;
 		}
+
+		log.debug("GetMarksheetCtl Validate Method Ended");
 
 		return pass;
 	}
@@ -64,11 +72,15 @@ public class GetMarksheetCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("GetMarksheetCtl Populate Bean Method Started");
 
 		MarksheetBean bean = new MarksheetBean();
 
 		bean.setRollNo(DataUtility.getString(request.getParameter("rollNo")));
 
+		log.debug("GetMarksheetCtl Populate Bean Method Ended");
+		
 		return bean;
 	}
 
@@ -82,7 +94,12 @@ public class GetMarksheetCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("GetMarksheetCtl Do Get Method Started");
+		
 		ServletUtility.forward(getView(), request, response);
+		
+		log.debug("GetMarksheetCtl Do Get Method Ended");
 	}
 
 	/**
@@ -97,6 +114,8 @@ public class GetMarksheetCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("GetMarksheetCtl Do Post Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -105,6 +124,7 @@ public class GetMarksheetCtl extends BaseCtl {
 		MarksheetBean bean = (MarksheetBean) populateBean(request);
 
 		if (OP_GO.equalsIgnoreCase(op)) {
+	
 			try {
 				bean = model.findByRollNo(bean.getRollNo());
 				if (bean != null) {
@@ -112,12 +132,15 @@ public class GetMarksheetCtl extends BaseCtl {
 				} else {
 					ServletUtility.setErrorMessage("RollNo Does Not exists", request);
 				}
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
+		log.debug("GetMarksheetCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

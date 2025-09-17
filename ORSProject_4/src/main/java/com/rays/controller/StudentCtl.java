@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.CollegeBean;
 import com.rays.bean.StudentBean;
@@ -34,6 +36,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "StudentCtl", urlPatterns = { "/ctl/StudentCtl" })
 public class StudentCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(StudentCtl.class);
 
 	/**
 	 * Preloads gender map and list of colleges into the request before the view is
@@ -43,6 +47,8 @@ public class StudentCtl extends BaseCtl {
 	 */
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+		log.debug("StudentCtl Preload Method Started");
 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("Male", "Male");
@@ -53,9 +59,13 @@ public class StudentCtl extends BaseCtl {
 		try {
 			List<CollegeBean> collegeList = collegeModel.list();
 			request.setAttribute("collegeList", collegeList);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 		}
+		
+		log.debug("StudentCtl Preload Method Ended");
 	}
 
 	/**
@@ -66,6 +76,8 @@ public class StudentCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("StudentCtl Validate Method Started");
 
 		boolean pass = true;
 
@@ -122,6 +134,8 @@ public class StudentCtl extends BaseCtl {
 			pass = false;
 		}
 
+		log.debug("StudentCtl Validate Method Ended");
+		
 		return pass;
 	}
 
@@ -133,6 +147,8 @@ public class StudentCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("StudentCtl Populate Bean Method Started");
 
 		StudentBean bean = new StudentBean();
 
@@ -154,6 +170,8 @@ public class StudentCtl extends BaseCtl {
 
 		populateDTO(bean, request);
 
+		log.debug("StudentCtl Populate Bean Method Ended");
+		
 		return bean;
 
 	}
@@ -169,6 +187,8 @@ public class StudentCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("StudentCtl Do Get Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -183,11 +203,15 @@ public class StudentCtl extends BaseCtl {
 			try {
 				bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
+		log.debug("StudentCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -202,6 +226,8 @@ public class StudentCtl extends BaseCtl {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("StudentCtl Do Post Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -217,13 +243,18 @@ public class StudentCtl extends BaseCtl {
 				long pk = model.add(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Data Successfully Added", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Student Already Exists", request);
 			}
+			
 		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
 
 			StudentBean bean = (StudentBean) populateBean(request);
@@ -234,20 +265,27 @@ public class StudentCtl extends BaseCtl {
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Data Updated Successfully", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Student Already Exists", request);
 			}
+			
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.STUDENT_LIST_CTL, request, response);
 			return;
+			
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.STUDENT_CTL, request, response);
 			return;
 		}
+		log.debug("StudentCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

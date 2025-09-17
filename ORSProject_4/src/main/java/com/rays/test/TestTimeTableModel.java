@@ -10,26 +10,45 @@ import java.util.List;
 import com.rays.bean.TimeTableBean;
 import com.rays.model.TimeTableModel;
 
+/**
+ * Test class to perform CRUD operations on TimeTableModel. This class tests
+ * adding, updating, deleting, searching, listing, and fetching TimeTableBean
+ * objects by primary key.
+ * 
+ * @author Aastik Sahu
+ */
 public class TestTimeTableModel {
-	
+
+	/**
+	 * Main method to execute test methods.
+	 * 
+	 * @param args command line arguments
+	 * @throws Exception when any test method throws exception
+	 */
 	public static void main(String[] args) throws Exception {
 
-//		testNextPk();
-//		testAdd();
+		// Uncomment the test you want to execute
+		// testNextPk();
+		// testAdd();
 		testUpdate();
-//		testDelete();
-//		testfindByPk();
-//		testsearch();
-//		testlist();
+		// testDelete();
+		// testfindByPk();
+		// testsearch();
+		// testlist();
 	}
 
+	/**
+	 * Tests listing of all TimeTable records.
+	 * 
+	 * @throws Exception if an error occurs during listing
+	 */
 	private static void testlist() throws Exception {
-		
+
 		TimeTableBean bean = new TimeTableBean();
 		TimeTableModel model = new TimeTableModel();
 
 		List list = new ArrayList();
-		
+
 		list = model.list();
 
 		Iterator it = list.iterator();
@@ -53,16 +72,22 @@ public class TestTimeTableModel {
 			System.out.println("\t" + bean.getModifiedDatetime());
 
 		}
-		
+
 	}
 
+	/**
+	 * Tests searching TimeTable records with pagination.
+	 * 
+	 * @throws Exception if an error occurs during search
+	 */
 	private static void testsearch() throws Exception {
-		
+
 		TimeTableBean bean = new TimeTableBean();
 		TimeTableModel model = new TimeTableModel();
-		
+
 		List list = new ArrayList();
 
+		// Uncomment and set search criteria if needed
 		// bean.setId(771);
 		// bean.setSemester("8th");
 		// bean.setDescription("Placement Training");
@@ -94,14 +119,19 @@ public class TestTimeTableModel {
 			System.out.print("\t" + bean.getCreatedDatetime());
 			System.out.println("\t" + bean.getModifiedDatetime());
 		}
-		
+
 	}
 
+	/**
+	 * Tests finding a TimeTable record by primary key.
+	 * 
+	 * @throws Exception if an error occurs during find operation
+	 */
 	private static void testfindByPk() throws Exception {
-		
+
 		TimeTableBean bean = new TimeTableBean();
 		TimeTableModel model = new TimeTableModel();
-		
+
 		bean = model.findByPk(767);
 
 		if (bean != null) {
@@ -124,6 +154,11 @@ public class TestTimeTableModel {
 		}
 	}
 
+	/**
+	 * Tests deleting a TimeTable record.
+	 * 
+	 * @throws Exception if an error occurs during deletion
+	 */
 	private static void testDelete() throws Exception {
 
 		TimeTableBean bean = new TimeTableBean();
@@ -135,12 +170,17 @@ public class TestTimeTableModel {
 
 	}
 
+	/**
+	 * Tests updating a TimeTable record.
+	 * 
+	 * @throws Exception if an error occurs during update
+	 */
 	private static void testUpdate() throws Exception {
 
 		TimeTableBean bean = new TimeTableBean();
 		TimeTableModel model = new TimeTableModel();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		bean.setSemester("8th");
 		bean.setDescription("Last Semester");
 		bean.setExamDate(sdf.parse("2025-06-14"));
@@ -148,7 +188,7 @@ public class TestTimeTableModel {
 		bean.setCourseId(1);
 		bean.setCourseName("Corporate Java");
 		bean.setSubjectId(12);
-		//bean.setSubjectName("Core Java");
+		// bean.setSubjectName("Core Java");
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
 		bean.setCreatedDatetime(new Timestamp(new Date().getTime()));
@@ -159,6 +199,11 @@ public class TestTimeTableModel {
 
 	}
 
+	/**
+	 * Tests adding a new TimeTable record.
+	 * 
+	 * @throws Exception if an error occurs during add operation
+	 */
 	private static void testAdd() throws Exception {
 
 		TimeTableBean bean = new TimeTableBean();
@@ -171,7 +216,7 @@ public class TestTimeTableModel {
 		bean.setExamTime("9 to 12");
 		bean.setCourseId(11);
 		bean.setCourseName("Corporate Java");
-		//bean.setSubjectId(1001);
+		// bean.setSubjectId(1001);
 		bean.setSubjectName("Physics");
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
@@ -182,8 +227,13 @@ public class TestTimeTableModel {
 
 	}
 
+	/**
+	 * Tests retrieving the next primary key for TimeTable.
+	 * 
+	 * @throws Exception if an error occurs during pk retrieval
+	 */
 	private static void testNextPk() throws Exception {
-		
+
 		TimeTableModel model = new TimeTableModel();
 
 		int i = model.nextPk();

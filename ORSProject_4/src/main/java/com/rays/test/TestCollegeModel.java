@@ -9,27 +9,47 @@ import java.util.List;
 import com.rays.bean.CollegeBean;
 import com.rays.model.CollegeModel;
 
+/**
+ * Test class for CollegeModel.
+ * <p>
+ * This class contains methods to test all CRUD operations and search/list
+ * functions provided by the {@link CollegeModel} class.
+ * </p>
+ * 
+ * @author Aastik Sahu
+ */
 public class TestCollegeModel {
 
+	/**
+	 * Main method to execute all test methods.
+	 * 
+	 * @param args command-line arguments
+	 * @throws Exception if any exception occurs
+	 */
 	public static void main(String[] args) throws Exception {
 
 		testNextPk();
-//		testAdd();
-//		testUpdate();
-//		testDelete();
-//		testfindByPk();
-//		testfindByName();
-//		testsearch();
-//		testlist();
+		testAdd();
+		testUpdate();
+		testDelete();
+		testfindByPk();
+		testfindByName();
+		testsearch();
+		testlist();
 	}
 
+	/**
+	 * Tests the list() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testlist() throws Exception {
-		
+
 		CollegeBean bean = new CollegeBean();
 		CollegeModel model = new CollegeModel();
 
 		List list = new ArrayList();
-		
+
 		list = model.list();
 
 		Iterator it = list.iterator();
@@ -50,23 +70,28 @@ public class TestCollegeModel {
 			System.out.println("\t" + bean.getModifiedDatetime());
 
 		}
-		
+
 	}
 
+	/**
+	 * Tests the search() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testsearch() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
 		CollegeModel model = new CollegeModel();
 
 		List list = new ArrayList();
-		
-		//bean.setId(2);
-		//bean.setName("Madhav");
-		//bean.setAddress("Teen Batti Chauraha");
-		//bean.setState("Madhya Pradesh");
-		//bean.setCity("Indore");
-		//bean.setPhoneNo("9669866628");
-		
+
+		// bean.setId(2);
+		// bean.setName("Madhav");
+		// bean.setAddress("Teen Batti Chauraha");
+		// bean.setState("Madhya Pradesh");
+		// bean.setCity("Indore");
+		// bean.setPhoneNo("9669866628");
+
 		list = model.search(bean, 1, 10);
 
 		Iterator it = list.iterator();
@@ -90,6 +115,11 @@ public class TestCollegeModel {
 
 	}
 
+	/**
+	 * Tests the findByName() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testfindByName() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
@@ -115,6 +145,11 @@ public class TestCollegeModel {
 
 	}
 
+	/**
+	 * Tests the findByPk() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testfindByPk() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
@@ -139,6 +174,11 @@ public class TestCollegeModel {
 		}
 	}
 
+	/**
+	 * Tests the delete() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testDelete() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
@@ -150,6 +190,11 @@ public class TestCollegeModel {
 
 	}
 
+	/**
+	 * Tests the update() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testUpdate() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
@@ -170,6 +215,11 @@ public class TestCollegeModel {
 
 	}
 
+	/**
+	 * Tests the add() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testAdd() throws Exception {
 
 		CollegeBean bean = new CollegeBean();
@@ -189,6 +239,11 @@ public class TestCollegeModel {
 
 	}
 
+	/**
+	 * Tests the nextPk() method of CollegeModel.
+	 * 
+	 * @throws Exception if any exception occurs
+	 */
 	private static void testNextPk() throws Exception {
 
 		CollegeModel model = new CollegeModel();

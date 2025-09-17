@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.CollegeBean;
 import com.rays.bean.CourseBean;
 import com.rays.bean.FacultyBean;
@@ -24,6 +26,8 @@ import com.rays.util.JDBCDataSource;
  * @Author Name: Aastik Sahu
  */
 public class FacultyModel {
+	
+	Logger log = Logger.getLogger(FacultyModel.class);
 
 	/**
 	 * Gets the next primary key value for Faculty.
@@ -33,6 +37,9 @@ public class FacultyModel {
 	 * @throws DatabaseException
 	 */
 	public Integer nextPk() throws ApplicationException, DatabaseException {
+		
+		log.debug("FacultyModel nextPk() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -52,6 +59,8 @@ public class FacultyModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("FacultyModel nextPk() Method Ended");
 		return pk + 1;
 	}
 
@@ -64,6 +73,9 @@ public class FacultyModel {
 	 * @throws DuplicateRecordException if email already exists
 	 */
 	public long add(FacultyBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("FacultyModel add() Method Started");
+		
 		CollegeBean collegeBean = new CollegeBean();
 		CollegeModel collegeModel = new CollegeModel();
 
@@ -148,6 +160,8 @@ public class FacultyModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("FacultyModel add() Method Ended");
 		return pk;
 	}
 
@@ -159,6 +173,9 @@ public class FacultyModel {
 	 * @throws DuplicateRecordException if email already exists
 	 */
 	public void update(FacultyBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("FacultyModel update() Method Started");
+		
 		CollegeBean collegeBean = new CollegeBean();
 		CollegeModel collegeModel = new CollegeModel();
 
@@ -240,6 +257,7 @@ public class FacultyModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("FacultyModel update() Method Ended");
 	}
 
 	/**
@@ -249,6 +267,9 @@ public class FacultyModel {
 	 * @throws ApplicationException
 	 */
 	public void delete(FacultyBean bean) throws ApplicationException {
+		
+		log.debug("FacultyModel delete() Method Started");
+		
 		Connection conn = null;
 
 		try {
@@ -274,6 +295,8 @@ public class FacultyModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("FacultyModel delete() Method Ended");
 	}
 
 	/**
@@ -284,6 +307,9 @@ public class FacultyModel {
 	 * @throws ApplicationException
 	 */
 	public FacultyBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("FacultyModel findByPk() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_faculty where id = ?");
 		FacultyBean bean = null;
 		Connection conn = null;
@@ -322,6 +348,8 @@ public class FacultyModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("FacultyModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -333,6 +361,9 @@ public class FacultyModel {
 	 * @throws ApplicationException
 	 */
 	public FacultyBean findByEmail(String email) throws ApplicationException {
+		
+		log.debug("FacultyModel findByEmail() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_faculty where email = ?");
 		FacultyBean bean = null;
 		Connection conn = null;
@@ -372,6 +403,8 @@ public class FacultyModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("FacultyModel findByEmail() Method Ended");
 		return bean;
 	}
 
@@ -385,6 +418,9 @@ public class FacultyModel {
 	 * @throws ApplicationException
 	 */
 	public List search(FacultyBean bean, int pageNo, int PageSize) throws ApplicationException {
+		
+		log.debug("FacultyModel search() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_faculty where 1=1");
 
 		if (bean != null) {
@@ -474,6 +510,8 @@ public class FacultyModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("FacultyModel search() Method Ended");
 		return list;
 	}
 

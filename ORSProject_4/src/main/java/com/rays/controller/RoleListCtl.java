@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.RoleBean;
 import com.rays.exception.ApplicationException;
@@ -28,6 +30,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "RoleListCtl", urlPatterns = { "/ctl/RoleListCtl" })
 public class RoleListCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(RoleListCtl.class);
 
 	/**
 	 * Preloads the role list before the view is rendered.
@@ -36,19 +40,22 @@ public class RoleListCtl extends BaseCtl {
 	 */
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+		log.debug("RoleListCtl Preload Method Started");
 
 		RoleModel roleModel = new RoleModel();
 
 		try {
-
 			List roleList = roleModel.list();
 			request.setAttribute("roleList", roleList);
 
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 			return;
 		}
 
+		log.debug("RoleListCtl Preload Method Ended");
 	}
 
 	/**
@@ -59,12 +66,16 @@ public class RoleListCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("RoleListCtl Populate Bean Method Started");
 
 		RoleBean bean = new RoleBean();
 
 		// bean.setName(DataUtility.getString(request.getParameter("name")));
 		bean.setId(DataUtility.getLong(request.getParameter("roleId")));
 
+		log.debug("RoleListCtl Populate Bean Method Ended");
+		
 		return bean;
 	}
 
@@ -78,6 +89,8 @@ public class RoleListCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("RoleListCtl Do Get Method Started");
 
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
@@ -99,12 +112,15 @@ public class RoleListCtl extends BaseCtl {
 			ServletUtility.setPageSize(pageSize, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("RoleListCtl Do Get Method Ended");
 			ServletUtility.forward(getView(), request, response);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
 			return;
 		}
-
 	}
 
 	/**
@@ -118,6 +134,8 @@ public class RoleListCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("RoleListCtl Do Post Method Started");
 
 		List list = null;
 		List next = null;
@@ -169,9 +187,11 @@ public class RoleListCtl extends BaseCtl {
 				} else {
 					ServletUtility.setErrorMessage("Select At Least One Record", request);
 				}
+				
 			} else if (OP_RESET.equalsIgnoreCase(op)) {
 				ServletUtility.redirect(ORSView.ROLE_LIST_CTL, request, response);
 				return;
+				
 			} else if (OP_BACK.equalsIgnoreCase(op)) {
 				ServletUtility.redirect(ORSView.ROLE_LIST_CTL, request, response);
 				return;
@@ -190,12 +210,15 @@ public class RoleListCtl extends BaseCtl {
 			ServletUtility.setPageSize(pageSize, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("RoleListCtl Do Post Method Ended");
 			ServletUtility.forward(getView(), request, response);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
 			return;
-		}
-
+		}	
 	}
 
 	/**

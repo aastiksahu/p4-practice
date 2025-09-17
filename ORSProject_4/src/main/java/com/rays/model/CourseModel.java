@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.CourseBean;
 import com.rays.exception.ApplicationException;
 import com.rays.exception.DatabaseException;
@@ -19,6 +21,8 @@ import com.rays.util.JDBCDataSource;
  * @author Aastik Sahu
  */
 public class CourseModel {
+	
+	Logger log = Logger.getLogger(CourseModel.class);
 
 	/**
 	 * Returns the next primary key for the course table.
@@ -27,6 +31,9 @@ public class CourseModel {
 	 * @throws DatabaseException if a database error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
+		
+		log.debug("CourseModel nextPk() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -46,7 +53,8 @@ public class CourseModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
-
+		
+		log.debug("CourseModel nextPk() Method Ended");
 		return pk + 11;
 	}
 
@@ -59,6 +67,9 @@ public class CourseModel {
 	 * @throws DuplicateRecordException if the course name already exists
 	 */
 	public long add(CourseBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("CourseModel add() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -99,7 +110,8 @@ public class CourseModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
-
+		
+		log.debug("CourseModel add() Method Ended");
 		return pk;
 	}
 
@@ -111,6 +123,9 @@ public class CourseModel {
 	 * @throws DuplicateRecordException if another course with the same name exists
 	 */
 	public void update(CourseBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("CourseModel update() Method Started");
+		
 		Connection conn = null;
 
 		CourseBean existBean = findByName(bean.getName());
@@ -150,6 +165,7 @@ public class CourseModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("CourseModel update() Method Ended");
 	}
 
 	/**
@@ -159,6 +175,9 @@ public class CourseModel {
 	 * @throws ApplicationException if an application error occurs
 	 */
 	public void delete(CourseBean bean) throws ApplicationException {
+		
+		log.debug("CourseModel delete() Method Started");
+		
 		Connection conn = null;
 
 		try {
@@ -183,6 +202,8 @@ public class CourseModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("CourseModel delete() Method Ended");
 	}
 
 	/**
@@ -193,6 +214,9 @@ public class CourseModel {
 	 * @throws ApplicationException if an application error occurs
 	 */
 	public CourseBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("CourseModel findByPk() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_course where id = ?");
 		CourseBean bean = null;
 		Connection conn = null;
@@ -224,6 +248,7 @@ public class CourseModel {
 			JDBCDataSource.closeConnection(conn);
 		}
 
+		log.debug("CourseModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -235,6 +260,9 @@ public class CourseModel {
 	 * @throws ApplicationException if an application error occurs
 	 */
 	public CourseBean findByName(String name) throws ApplicationException {
+		
+		log.debug("CourseModel findByName() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_course where name = ?");
 		CourseBean bean = null;
 		Connection conn = null;
@@ -266,6 +294,7 @@ public class CourseModel {
 			JDBCDataSource.closeConnection(conn);
 		}
 
+		log.debug("CourseModel findByName() Method Ended");
 		return bean;
 	}
 
@@ -279,6 +308,9 @@ public class CourseModel {
 	 * @throws ApplicationException if an application error occurs
 	 */
 	public List search(CourseBean bean, int pageNo, int PageSize) throws ApplicationException {
+		
+		log.debug("CourseModel search() Method Started");
+		
 		StringBuffer sql = new StringBuffer("select * from st_course where 1=1");
 
 		if (bean != null) {
@@ -334,6 +366,7 @@ public class CourseModel {
 			JDBCDataSource.closeConnection(conn);
 		}
 
+		log.debug("CourseModel search() Method Ended");
 		return list;
 	}
 

@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.RoleBean;
 import com.rays.bean.UserBean;
@@ -37,6 +39,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "LoginCtl", urlPatterns = { "/LoginCtl" })
 public class LoginCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(LoginCtl.class);
 
 	public static final String OP_SIGN_IN = "Sign In";
 	public static final String OP_SIGN_UP = "Sign Up";
@@ -50,6 +54,8 @@ public class LoginCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("LoginCtl Validate Method Started");
 
 		boolean pass = true;
 
@@ -72,6 +78,9 @@ public class LoginCtl extends BaseCtl {
 			request.setAttribute("password", PropertyReader.getValue("error.require", "Password"));
 			pass = false;
 		}
+		
+		log.debug("LoginCtl Validate Method Ended");
+		
 		return pass;
 	}
 
@@ -83,6 +92,8 @@ public class LoginCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("LoginCtl Populate Bean Method Started");
 
 		UserBean bean = new UserBean();
 
@@ -90,6 +101,8 @@ public class LoginCtl extends BaseCtl {
 		bean.setLogin(DataUtility.getString(request.getParameter("login")));
 		bean.setPassword(DataUtility.getString(request.getParameter("password")));
 
+		log.debug("LoginCtl Populate Bean Method Ended");
+		
 		return bean;
 	}
 
@@ -105,6 +118,8 @@ public class LoginCtl extends BaseCtl {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("LoginCtl Do Get Method Started");
 
 		HttpSession session = request.getSession();
 
@@ -116,6 +131,7 @@ public class LoginCtl extends BaseCtl {
 			ServletUtility.forward(getView(), request, response);
 			return;
 		}
+		log.debug("LoginCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -132,6 +148,8 @@ public class LoginCtl extends BaseCtl {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("LoginCtl Do Post Method Started");
 
 		HttpSession session = request.getSession();
 		String op = DataUtility.getString(request.getParameter("operation"));
@@ -158,7 +176,7 @@ public class LoginCtl extends BaseCtl {
 					String uri = (String) request.getParameter("uri");
 
 					if (uri == null || "null".equalsIgnoreCase(uri)) {
-
+						
 						ServletUtility.redirect(ORSView.WELCOME_CTL, request, response);
 						return;
 
@@ -174,13 +192,16 @@ public class LoginCtl extends BaseCtl {
 				}
 
 			} catch (Exception e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		} else if (OP_SIGN_UP.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.USER_REGISTRATION_CTL, request, response);
 			return;
 		}
+		log.debug("LoginCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

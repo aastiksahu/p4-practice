@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.TimeTableBean;
 import com.rays.exception.ApplicationException;
@@ -28,6 +30,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "TimetableCtl", urlPatterns = "/ctl/TimetableCtl")
 public class TimetableCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(TimetableCtl.class);
 
 	/**
 	 * Preloads the required data for course and subject dropdowns.
@@ -36,6 +40,9 @@ public class TimetableCtl extends BaseCtl {
 	 */
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+		log.debug("TimetableCtl Preload Method Started");
+		
 		SubjectModel subjectModel = new SubjectModel();
 		CourseModel courseModel = new CourseModel();
 
@@ -45,9 +52,13 @@ public class TimetableCtl extends BaseCtl {
 
 			List courseList = courseModel.list();
 			request.setAttribute("courseList", courseList);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 		}
+		
+		log.debug("TimetableCtl Preload Method Ended");
 	}
 
 	/**
@@ -58,6 +69,9 @@ public class TimetableCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("TimetableCtl Validate Method Started");
+		
 		boolean pass = true;
 
 		if (DataValidator.isNull(request.getParameter("semester"))) {
@@ -96,6 +110,8 @@ public class TimetableCtl extends BaseCtl {
 			pass = false;
 		}
 
+		log.debug("TimetableCtl Validate Method Ended");
+		
 		return pass;
 	}
 
@@ -107,6 +123,8 @@ public class TimetableCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("TimetableCtl Populate Bean Method Started");
 
 		TimeTableBean bean = new TimeTableBean();
 
@@ -121,6 +139,8 @@ public class TimetableCtl extends BaseCtl {
 
 		populateDTO(bean, request);
 
+		log.debug("TimetableCtl Populate Bean Method Ended");
+		
 		return bean;
 	}
 
@@ -134,6 +154,8 @@ public class TimetableCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("TimetableCtl Do Get Method Started");
 
 		long id = DataUtility.getLong(request.getParameter("id"));
 
@@ -143,12 +165,15 @@ public class TimetableCtl extends BaseCtl {
 			try {
 				TimeTableBean bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
+		log.debug("TimetableCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -162,6 +187,8 @@ public class TimetableCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("TimetableCtl Do Post Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -186,15 +213,19 @@ public class TimetableCtl extends BaseCtl {
 					long pk = model.add(bean);
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setSuccessMessage("Timetable added successfully", request);
+					
 				} else {
 					bean = (TimeTableBean) populateBean(request);
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setErrorMessage("Timetable already exist!", request);
 				}
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Timetable already exist!", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
@@ -214,15 +245,19 @@ public class TimetableCtl extends BaseCtl {
 					model.update(bean);
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setSuccessMessage("Timetable updated successfully", request);
+					
 				} else {
 					bean = (TimeTableBean) populateBean(request);
 					ServletUtility.setBean(bean, request);
 					ServletUtility.setErrorMessage("Timetable already exist!", request);
 				}
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Timetable already exist!", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
 				ServletUtility.handleException(e, request, response);
 				return;
@@ -231,11 +266,12 @@ public class TimetableCtl extends BaseCtl {
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.TIMETABLE_LIST_CTL, request, response);
 			return;
+			
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.TIMETABLE_CTL, request, response);
 			return;
 		}
-
+		log.debug("TimetableCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

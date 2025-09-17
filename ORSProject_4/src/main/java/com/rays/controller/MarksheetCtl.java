@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.MarksheetBean;
 import com.rays.exception.ApplicationException;
@@ -35,6 +37,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "MarksheetCtl", urlPatterns = { "/ctl/MarksheetCtl" })
 public class MarksheetCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(MarksheetCtl.class);
 
 	/**
 	 * Loads the list of students and sets it in the request attribute to be used in
@@ -44,14 +48,22 @@ public class MarksheetCtl extends BaseCtl {
 	 */
 	@Override
 	protected void preload(HttpServletRequest request) {
+		
+		log.debug("MarksheetCtl Preload Method Started");
+		
 		StudentModel model = new StudentModel();
+		
 		try {
 			List studentList = model.list();
 			request.setAttribute("studentList", studentList);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 			return;
 		}
+		
+		log.debug("MarksheetCtl Preload Method Ended");
 	}
 
 	/**
@@ -63,6 +75,8 @@ public class MarksheetCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+		
+		log.debug("MarksheetCtl Validate Method Started");
 
 		boolean pass = true;
 
@@ -122,6 +136,8 @@ public class MarksheetCtl extends BaseCtl {
 			request.setAttribute("studentId", PropertyReader.getValue("error.require", "Student Name"));
 			pass = false;
 		}
+		
+		log.debug("MarksheetCtl Validate Method Ended");
 
 		return pass;
 	}
@@ -134,6 +150,8 @@ public class MarksheetCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("MarksheetCtl Populate Bean Method Started");
 
 		MarksheetBean bean = new MarksheetBean();
 
@@ -155,6 +173,8 @@ public class MarksheetCtl extends BaseCtl {
 		bean.setStudentId(DataUtility.getLong(request.getParameter("studentId")));
 
 		populateDTO(bean, request);
+		
+		log.debug("MarksheetCtl Populate Bean Method Ended");
 
 		return bean;
 	}
@@ -170,6 +190,8 @@ public class MarksheetCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("MarksheetCtl Do Get Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 		long id = DataUtility.getLong(request.getParameter("id"));
@@ -181,11 +203,15 @@ public class MarksheetCtl extends BaseCtl {
 			try {
 				bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
+		log.debug("MarksheetCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -200,6 +226,8 @@ public class MarksheetCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("MarksheetCtl Do Post Method Started");
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -207,39 +235,53 @@ public class MarksheetCtl extends BaseCtl {
 
 		if (OP_SAVE.equalsIgnoreCase(op)) {
 			MarksheetBean bean = (MarksheetBean) populateBean(request);
+			
 			try {
 				long pk = model.add(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Marksheet added successfully", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Roll No already exists", request);
 			}
+			
 		} else if (OP_UPDATE.equalsIgnoreCase(op)) {
 			MarksheetBean bean = (MarksheetBean) populateBean(request);
+			
 			try {
 				if (bean.getId() > 0) {
 					model.update(bean);
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Marksheet updated successfully", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("Roll No already exists", request);
+				
 			}
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.MARKSHEET_LIST_CTL, request, response);
 			return;
+			
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.MARKSHEET_CTL, request, response);
 			return;
 		}
+		log.debug("MarksheetCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.MarksheetBean;
 import com.rays.exception.ApplicationException;
 import com.rays.exception.DatabaseException;
@@ -19,6 +21,8 @@ import com.rays.util.JDBCDataSource;
  * @author Aastik Sahu
  */
 public class MarksheetModel {
+	
+	Logger log = Logger.getLogger(MarksheetModel.class);
 
 	/**
 	 * Gets the next primary key from the database.
@@ -27,6 +31,9 @@ public class MarksheetModel {
 	 * @throws DatabaseException if database error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
+		
+		log.debug("MarksheetModel nextPk() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -46,6 +53,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("MarksheetModel nextPk() Method Ended");
 		return pk + 1;
 	}
 
@@ -58,6 +67,8 @@ public class MarksheetModel {
 	 * @throws DuplicateRecordException if duplicate record exists
 	 */
 	public long add(MarksheetBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("MarksheetModel add() Method Started");
 
 		Connection conn = null;
 		int pk = 0;
@@ -103,6 +114,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("MarksheetModel add() Method Ended");
 		return pk;
 
 	}
@@ -115,6 +128,8 @@ public class MarksheetModel {
 	 * @throws DuplicateRecordException if duplicate record exists
 	 */
 	public void update(MarksheetBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("MarksheetModel update() Method Started");
 
 		Connection conn = null;
 
@@ -160,7 +175,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
-
+		
+		log.debug("MarksheetModel update() Method Ended");
 	}
 
 	/**
@@ -170,6 +186,8 @@ public class MarksheetModel {
 	 * @throws ApplicationException if application error occurs
 	 */
 	public void delete(MarksheetBean bean) throws ApplicationException {
+		
+		log.debug("MarksheetModel delete() Method Started");
 
 		Connection conn = null;
 
@@ -197,6 +215,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("MarksheetModel delete() Method Ended");
 	}
 
 	/**
@@ -207,6 +227,8 @@ public class MarksheetModel {
 	 * @throws ApplicationException if application error occurs
 	 */
 	public MarksheetBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("MarksheetModel findByPk() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_marksheet where id = ?");
 		MarksheetBean bean = null;
@@ -239,6 +261,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("MarksheetModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -250,6 +274,8 @@ public class MarksheetModel {
 	 * @throws ApplicationException if application error occurs
 	 */
 	public MarksheetBean findByRollNo(String roll_no) throws ApplicationException {
+		
+		log.debug("MarksheetModel findByRollNo() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_marksheet where roll_no = ?");
 		MarksheetBean bean = null;
@@ -282,6 +308,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("MarksheetModel findByRollNo() Method Ended");
 		return bean;
 	}
 
@@ -295,6 +323,8 @@ public class MarksheetModel {
 	 * @throws ApplicationException if application error occurs
 	 */
 	public List search(MarksheetBean bean, int pageNo, int PageSize) throws ApplicationException {
+		
+		log.debug("MarksheetModel search() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_marksheet where 1=1");
 
@@ -353,6 +383,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("MarksheetModel search() Method Ended");
 		return list;
 	}
 
@@ -375,6 +407,8 @@ public class MarksheetModel {
 	 * @throws ApplicationException if application error occurs
 	 */
 	public List<MarksheetBean> getMeritList(int pageNo, int pageSize) throws ApplicationException {
+		
+		log.debug("MarksheetModel getMeritList() Method Started");
 
 		ArrayList<MarksheetBean> list = new ArrayList<MarksheetBean>();
 		StringBuffer sql = new StringBuffer(
@@ -408,6 +442,8 @@ public class MarksheetModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("MarksheetModel getMeritList() Method Ended");
 		return list;
 	}
 

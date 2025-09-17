@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.CollegeBean;
 import com.rays.bean.StudentBean;
 import com.rays.exception.ApplicationException;
@@ -20,6 +22,8 @@ import com.rays.util.JDBCDataSource;
  * @author Aastik Sahu
  */
 public class StudentModel {
+	
+	Logger log = Logger.getLogger(StudentModel.class);
 
 	/**
 	 * Gets the next primary key from the database.
@@ -28,6 +32,9 @@ public class StudentModel {
 	 * @throws DatabaseException if any database error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
+		
+		log.debug("StudentModel nextPk() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -52,6 +59,8 @@ public class StudentModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("StudentModel nextPk() Method Ended");
 		return pk + 1;
 	}
 
@@ -64,6 +73,8 @@ public class StudentModel {
 	 * @throws DuplicateRecordException if the student email already exists
 	 */
 	public long add(StudentBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("StudentModel add() Method Started");
 
 		CollegeBean collegeBean = new CollegeBean();
 		CollegeModel collegeModel = new CollegeModel();
@@ -126,6 +137,8 @@ public class StudentModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("StudentModel add() Method Ended");
 		return pk;
 
 	}
@@ -138,6 +151,8 @@ public class StudentModel {
 	 * @throws DuplicateRecordException if the student email already exists
 	 */
 	public void update(StudentBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("StudentModel update() Method Started");
 
 		Connection conn = null;
 
@@ -200,6 +215,8 @@ public class StudentModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("StudentModel update() Method Ended");
 
 	}
 
@@ -210,6 +227,8 @@ public class StudentModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public void delete(StudentBean bean) throws ApplicationException {
+		
+		log.debug("StudentModel delete() Method Started");
 
 		Connection conn = null;
 
@@ -243,6 +262,8 @@ public class StudentModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("StudentModel delete() Method Ended");
 
 	}
 
@@ -254,6 +275,8 @@ public class StudentModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public StudentBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("StudentModel findByPk() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_student where id = ?");
 		StudentBean bean = null;
@@ -292,6 +315,8 @@ public class StudentModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("StudentModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -303,6 +328,8 @@ public class StudentModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public StudentBean findByEmail(String Email) throws ApplicationException {
+		
+		log.debug("StudentModel findByEmail() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_student where email = ?");
 		StudentBean bean = null;
@@ -342,6 +369,8 @@ public class StudentModel {
 
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("StudentModel findByEmail() Method Ended");
 		return bean;
 	}
 
@@ -355,6 +384,8 @@ public class StudentModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public List search(StudentBean bean, int pageNo, int PageSize) throws ApplicationException {
+		
+		log.debug("StudentModel search() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_student where 1=1");
 
@@ -433,6 +464,8 @@ public class StudentModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("StudentModel search() Method Ended");
 		return list;
 
 	}

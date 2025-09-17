@@ -15,21 +15,21 @@
 		</h1>
 
 		<%
-			UserBean beanUserBean = (UserBean) session.getAttribute("user");
-			if (beanUserBean != null) {
-				if (beanUserBean.getRoleId() == RoleBean.STUDENT) {
+		UserBean beanUserBean = (UserBean) session.getAttribute("user");
+		if (beanUserBean != null) {
+			if (beanUserBean.getRoleId() == RoleBean.STUDENT) {
 		%>
 
 		<h2 align="Center">
-			<a style="color: maroon" href="<%=ORSView.GET_MARKSHEET_CTL %>">Click here to see your
-				Marksheet </a>
+			<a style="color: maroon" href="<%=ORSView.GET_MARKSHEET_CTL%>">Click
+				here to see your Marksheet </a>
 		</h2>
 
 		<%
-			}
-			}
+		}
+		}
 		%>
-
+		<%@ include file="Footer.jsp"%>
 	</form>
 </body>
 </html>

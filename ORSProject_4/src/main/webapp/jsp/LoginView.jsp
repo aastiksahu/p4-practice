@@ -34,7 +34,7 @@
 			String uri = (String) request.getAttribute("uri");
 			%>
 			<input type="hidden" name="uri" value="<%=uri%>">
-			
+
 			<table>
 				<tr>
 					<th align="left">Login Id<span style="color: red">*</span></th>
@@ -77,5 +77,6 @@
 			</table>
 		</div>
 	</form>
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>

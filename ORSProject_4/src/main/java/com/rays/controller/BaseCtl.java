@@ -128,6 +128,8 @@ public abstract class BaseCtl extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		System.out.println("BaseCtl Service Started.");
 
 		preload(request);
 
@@ -143,6 +145,9 @@ public abstract class BaseCtl extends HttpServlet {
 				return;
 			}
 		}
+		
+		System.out.println("BaseCtl Service Ended. Method : " + request.getMethod());
+		
 		super.service(request, response);
 	}
 

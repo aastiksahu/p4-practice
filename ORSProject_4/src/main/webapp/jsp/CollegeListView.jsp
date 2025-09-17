@@ -54,7 +54,9 @@
 			<table style="width: 100%">
 				<tr>
 					<td align="center"><label><b>College Name : </b></label><%=HTMLUtility.getList("collegeId", String.valueOf(bean.getId()), collegeList)%>&nbsp;
-						 				<label><b>City :</b></label> <input type="text" name="city" placeholder="Enter city" value="<%=ServletUtility.getParameter("city", request)%>">&nbsp;
+						<label><b>City :</b></label> <input type="text" name="city"
+						placeholder="Enter city"
+						value="<%=ServletUtility.getParameter("city", request)%>">&nbsp;
 						<input type="submit" name="operation"
 						value="<%=CollegeListCtl.OP_SEARCH%>">&nbsp; <input
 						type="submit" name="operation"
@@ -126,6 +128,6 @@
 		</form>
 
 	</div>
-
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>

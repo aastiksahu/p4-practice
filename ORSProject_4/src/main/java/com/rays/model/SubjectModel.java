@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.CourseBean;
 import com.rays.bean.SubjectBean;
 import com.rays.exception.ApplicationException;
@@ -21,6 +23,8 @@ import com.rays.util.JDBCDataSource;
  * @author Aastik Sahu
  */
 public class SubjectModel {
+	
+	Logger log = Logger.getLogger(SubjectModel.class);
 
 	/**
 	 * Get the next primary key from the database.
@@ -29,6 +33,9 @@ public class SubjectModel {
 	 * @throws DatabaseException if any database error occurs
 	 */
 	public Integer nextPk() throws DatabaseException {
+		
+		log.debug("SubjectModel nextPk() Method Started");
+		
 		Connection conn = null;
 		int pk = 0;
 
@@ -48,6 +55,8 @@ public class SubjectModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("SubjectModel nextPk() Method Ended");
 		return pk + 1;
 	}
 
@@ -60,6 +69,8 @@ public class SubjectModel {
 	 * @throws DuplicateRecordException if the subject name already exists
 	 */
 	public long add(SubjectBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("SubjectModel add() Method Started");
 
 		CourseBean courseBean = new CourseBean();
 		CourseModel courseModel = new CourseModel();
@@ -115,6 +126,8 @@ public class SubjectModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("SubjectModel add() Method Ended");
 		return pk;
 	}
 
@@ -126,6 +139,8 @@ public class SubjectModel {
 	 * @throws DuplicateRecordException if the subject name already exists
 	 */
 	public void update(SubjectBean bean) throws ApplicationException, DuplicateRecordException {
+		
+		log.debug("SubjectModel update() Method Started");
 
 		CourseBean courseBean = new CourseBean();
 		CourseModel courseModel = new CourseModel();
@@ -180,6 +195,7 @@ public class SubjectModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		log.debug("SubjectModel update() Method Ended");
 	}
 
 	/**
@@ -189,6 +205,8 @@ public class SubjectModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public void delete(SubjectBean bean) throws ApplicationException {
+		
+		log.debug("SubjectModel delete() Method Started");
 
 		Connection conn = null;
 
@@ -216,6 +234,8 @@ public class SubjectModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("SubjectModel delete() Method Ended");
 	}
 
 	/**
@@ -226,6 +246,8 @@ public class SubjectModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public SubjectBean findByPk(long pk) throws ApplicationException {
+		
+		log.debug("SubjectModel findByPk() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_subject where id = ?");
 		SubjectBean bean = null;
@@ -255,6 +277,8 @@ public class SubjectModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("SubjectModel findByPk() Method Ended");
 		return bean;
 	}
 
@@ -266,6 +290,8 @@ public class SubjectModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public SubjectBean findByName(String Name) throws ApplicationException {
+		
+		log.debug("SubjectModel findByName() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_subject where name = ?");
 		SubjectBean bean = null;
@@ -296,6 +322,8 @@ public class SubjectModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("SubjectModel findByName() Method Ended");
 		return bean;
 	}
 
@@ -309,6 +337,8 @@ public class SubjectModel {
 	 * @throws ApplicationException if any application error occurs
 	 */
 	public List search(SubjectBean bean, int pageNo, int PageSize) throws ApplicationException {
+		
+		log.debug("SubjectModel search() Method Started");
 
 		StringBuffer sql = new StringBuffer("select * from st_subject where 1=1");
 
@@ -367,6 +397,8 @@ public class SubjectModel {
 		} finally {
 			JDBCDataSource.closeConnection(conn);
 		}
+		
+		log.debug("SubjectModel search() Method Ended");
 		return list;
 	}
 

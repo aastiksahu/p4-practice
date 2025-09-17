@@ -26,7 +26,7 @@
 
 		<%
 		List<CollegeBean> collegeList = (List<CollegeBean>) request.getAttribute("collegeList");
-		HashMap<String, String> map =(HashMap<String, String>) request.getAttribute("map");
+		HashMap<String, String> map = (HashMap<String, String>) request.getAttribute("map");
 		%>
 		<div align="center">
 			<h1 align="center" style="margin-bottom: -15; color: navy">
@@ -69,7 +69,7 @@
 						value="<%=DataUtility.getStringData(bean.getFirstName())%>"></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("firstName", request)%></font></td>
 				</tr>
-				
+
 				<tr>
 					<th align="left">Last Name<span style="color: red">*</span></th>
 					<td><input type="text" name="lastName"
@@ -77,7 +77,7 @@
 						value="<%=DataUtility.getStringData(bean.getLastName())%>"></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("lastName", request)%></font></td>
 				</tr>
-				
+
 				<tr>
 					<th align="left">Email Id<span style="color: red">*</span></th>
 					<td><input type="text" name="email"
@@ -85,27 +85,28 @@
 						value="<%=DataUtility.getStringData(bean.getEmail())%>"></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("email", request)%></font></td>
 				</tr>
-				
+
 				<tr>
 					<th align="left">Date of Birth<span style="width: 98%"
 						style="color: red">*</span></th>
-					<td><input type="text" name="dob" id="udate" placeholder="Select Date of Birth"
+					<td><input type="text" name="dob" id="udate"
+						placeholder="Select Date of Birth"
 						value="<%=DataUtility.getStringData(bean.getDob())%>"></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("dob", request)%></font></td>
 				</tr>
-				
+
 				<tr>
 					<th align="left">Gender<span style="color: red">*</span></th>
-					<td><%=HTMLUtility.getList("gender", bean.getGender(), map) %></td>
+					<td><%=HTMLUtility.getList("gender", bean.getGender(), map)%></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("gender", request)%></font></td>
 				</tr>
-				
+
 				<tr>
 					<th align="left">College<span style="color: red">*</span></th>
 					<td><%=HTMLUtility.getList("collegeId", String.valueOf(bean.getCollegeId()), collegeList)%></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("collegeId", request)%></font></td>
 				</tr>
-				
+
 				<tr>
 					<th align="left">Mobile No<span style="color: red">*</span></th>
 					<td><input type="text" name="mobileNo" maxlength="10"
@@ -138,5 +139,6 @@
 			</table>
 		</div>
 	</form>
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>

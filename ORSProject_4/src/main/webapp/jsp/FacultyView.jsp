@@ -21,19 +21,19 @@
 			scope="request"></jsp:useBean>
 
 		<%
-			List<FacultyBean> collegeList = (List<FacultyBean>) request.getAttribute("collegeList");
-			List<FacultyBean> courseList = (List<FacultyBean>) request.getAttribute("courseList");
-			List<FacultyBean> subjectList = (List<FacultyBean>) request.getAttribute("subjectList");
+		List<FacultyBean> collegeList = (List<FacultyBean>) request.getAttribute("collegeList");
+		List<FacultyBean> courseList = (List<FacultyBean>) request.getAttribute("courseList");
+		List<FacultyBean> subjectList = (List<FacultyBean>) request.getAttribute("subjectList");
 		%>
 
 		<div align="center">
 			<h1 align="center" style="margin-bottom: -15; color: navy">
 				<%
-					if (bean != null && bean.getId() > 0) {
+				if (bean != null && bean.getId() > 0) {
 				%>Update<%
-					} else {
+				} else {
 				%>Add<%
-					}
+				}
 				%>
 				Faculty
 			</h1>
@@ -81,7 +81,8 @@
 				</tr>
 				<tr>
 					<th align="left">Date of Birth<span style="color: red">*</span></th>
-					<td><input type="text" id="udate" name="dob" placeholder="Select Date of Birth"
+					<td><input type="text" id="udate" name="dob"
+						placeholder="Select Date of Birth"
 						value="<%=DataUtility.getDateString(bean.getDob())%>"></td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("dob", request)%></font></td>
 				</tr>
@@ -89,12 +90,12 @@
 					<th align="left">Gender<span style="color: red">*</span></th>
 					<td>
 						<%
-							HashMap<String, String> map = new HashMap<String, String>();
+						HashMap<String, String> map = new HashMap<String, String>();
 
-							map.put("Male", "Male");
-							map.put("Female", "Female");
+						map.put("Male", "Male");
+						map.put("Female", "Female");
 
-							String htmlList = HTMLUtility.getList("gender", bean.getGender(), map);
+						String htmlList = HTMLUtility.getList("gender", bean.getGender(), map);
 						%> <%=htmlList%>
 					</td>
 					<td style="position: fixed;"><font color="red"> <%=ServletUtility.getErrorMessage("gender", request)%></font></td>
@@ -128,23 +129,24 @@
 				<tr>
 					<th></th>
 					<%
-						if (bean != null && bean.getId() > 0) {
+					if (bean != null && bean.getId() > 0) {
 					%>
 					<td align="left" colspan="2"><input type="submit"
 						name="operation" value="<%=FacultyCtl.OP_UPDATE%>"> <input
 						type="submit" name="operation" value="<%=FacultyCtl.OP_CANCEL%>">
 						<%
-							} else {
+						} else {
 						%>
 					<td align="left" colspan="2"><input type="submit"
 						name="operation" value="<%=FacultyCtl.OP_SAVE%>"> <input
 						type="submit" name="operation" value="<%=FacultyCtl.OP_RESET%>">
 						<%
-							}
+						}
 						%>
 				</tr>
 			</table>
 		</div>
 	</form>
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>

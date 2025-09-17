@@ -13,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.CollegeBean;
 import com.rays.exception.ApplicationException;
@@ -32,6 +34,8 @@ import com.rays.util.ServletUtility;
 @WebServlet(name = "CollegeCtl", urlPatterns = { "/ctl/CollegeCtl" })
 public class CollegeCtl extends BaseCtl {
 
+	Logger log = Logger.getLogger(CollegeCtl.class);
+
 	/**
 	 * Validates the input fields for the College form.
 	 * 
@@ -40,6 +44,8 @@ public class CollegeCtl extends BaseCtl {
 	 */
 	@Override
 	protected boolean validate(HttpServletRequest request) {
+
+		log.debug("CollegeCtl Validate Method Started");
 
 		boolean pass = true;
 
@@ -76,6 +82,9 @@ public class CollegeCtl extends BaseCtl {
 			request.setAttribute("phoneNo", "Phone No. Must Be 10 Digits");
 			pass = false;
 		}
+
+		log.debug("CollegeCtl Validate Method Ended");
+		
 		return pass;
 	}
 
@@ -88,6 +97,8 @@ public class CollegeCtl extends BaseCtl {
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
 
+		log.debug("CollegeCtl Populate Bean Method Started");
+
 		CollegeBean bean = new CollegeBean();
 
 		bean.setId(DataUtility.getLong(request.getParameter("id")));
@@ -98,6 +109,8 @@ public class CollegeCtl extends BaseCtl {
 		bean.setPhoneNo(DataUtility.getString(request.getParameter("phoneNo")));
 
 		populateDTO(bean, request);
+
+		log.debug("CollegeCtl Populate Bean Method Ended");
 
 		return bean;
 	}
@@ -113,6 +126,8 @@ public class CollegeCtl extends BaseCtl {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		log.debug("CollegeCtl Do Get Method Started");
+
 		String op = DataUtility.getString(request.getParameter("operation"));
 
 		CollegeModel model = new CollegeModel();
@@ -124,11 +139,15 @@ public class CollegeCtl extends BaseCtl {
 			try {
 				bean = model.findByPk(id);
 				ServletUtility.setBean(bean, request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
 			}
 		}
+		log.debug("CollegeCtl Do Get Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 
@@ -142,6 +161,8 @@ public class CollegeCtl extends BaseCtl {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("CollegeCtl Do Post Method Started");	
 
 		String op = DataUtility.getString(request.getParameter("operation"));
 
@@ -157,9 +178,13 @@ public class CollegeCtl extends BaseCtl {
 				long pk = model.add(bean);
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Data Successfully saved", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("College Already Exists", request);
@@ -175,20 +200,28 @@ public class CollegeCtl extends BaseCtl {
 				}
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setSuccessMessage("Data Updated Successfully", request);
+				
 			} catch (ApplicationException e) {
+				log.error(e);
 				e.printStackTrace();
+				ServletUtility.handleException(e, request, response);
 				return;
+				
 			} catch (DuplicateRecordException e) {
 				ServletUtility.setBean(bean, request);
 				ServletUtility.setErrorMessage("College Already Exists", request);
 			}
+			
 		} else if (OP_CANCEL.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.COLLEGE_LIST_CTL, request, response);
 			return;
+			
 		} else if (OP_RESET.equalsIgnoreCase(op)) {
 			ServletUtility.redirect(ORSView.COLLEGE_CTL, request, response);
 			return;
+			
 		}
+		log.debug("CollegeCtl Do Post Method Ended");
 		ServletUtility.forward(getView(), request, response);
 	}
 

@@ -10,27 +10,57 @@ import java.util.List;
 import com.rays.bean.FacultyBean;
 import com.rays.model.FacultyModel;
 
+/**
+ * Test class for {@link FacultyModel} to perform unit testing on CRUD
+ * operations.
+ * <p>
+ * Includes tests for:
+ * <ul>
+ * <li>Add</li>
+ * <li>Update</li>
+ * <li>Delete</li>
+ * <li>Find by Primary Key</li>
+ * <li>Find by Email</li>
+ * <li>Search</li>
+ * <li>List</li>
+ * <li>Get Next Primary Key</li>
+ * </ul>
+ * </p>
+ * 
+ * @author Aastik Sahu
+ */
 public class TestFacultyModel {
 
+	/**
+	 * Main method to execute test cases.
+	 * 
+	 * @param args command line arguments
+	 * @throws Exception in case of any error
+	 */
 	public static void main(String[] args) throws Exception {
 
-//		testNextPk();
+//      testNextPk();
 		testAdd();
-//		testUpdate();
-//		testDelete();
-//		testfindByPk();
-//		testfindbyEmail();
-//		testsearch();
-//		testlist();
+//      testUpdate();
+//      testDelete();
+//      testfindByPk();
+//      testfindbyEmail();
+//      testsearch();
+//      testlist();
 	}
 
+	/**
+	 * Tests the list method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testlist() throws Exception {
-		
+
 		FacultyBean bean = new FacultyBean();
 		FacultyModel model = new FacultyModel();
 
 		List list = new ArrayList();
-		
+
 		list = model.list();
 
 		Iterator it = list.iterator();
@@ -60,6 +90,11 @@ public class TestFacultyModel {
 		}
 	}
 
+	/**
+	 * Tests the search method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testsearch() throws Exception {
 
 		FacultyBean bean = new FacultyBean();
@@ -68,19 +103,7 @@ public class TestFacultyModel {
 
 		List list = new ArrayList();
 
-		// bean.setId(700016);
-		// bean.setFirstName("Mamta");
-		// bean.setLastName("Sahu");
-		// bean.setDob(sdf.parse("2000-04-12"));
-		// bean.setGender("Female");
-		// bean.setMobileNo("9827071414");
-		// bean.setEmail("kalpana@gmail.com");
-		// bean.setCollegeId(11);
-		// bean.setCollegeName("Rays");
-		// bean.setCourseId(33);
-		// bean.setCourseName("BCA");
-		// bean.setSubjectId(7002);
-		// bean.setSubjectName("Physics");
+		// Set search parameters here if needed
 
 		list = model.search(bean, 2, 10);
 
@@ -111,6 +134,11 @@ public class TestFacultyModel {
 
 	}
 
+	/**
+	 * Tests the findByEmail method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testfindbyEmail() throws Exception {
 
 		FacultyBean bean = new FacultyBean();
@@ -119,7 +147,7 @@ public class TestFacultyModel {
 		bean = model.findByEmail("kalpana@gmail.com");
 
 		if (bean != null) {
-			
+
 			System.out.print("\t" + bean.getId());
 			System.out.print("\t" + bean.getFirstName());
 			System.out.print("\t" + bean.getLastName());
@@ -142,6 +170,11 @@ public class TestFacultyModel {
 		}
 	}
 
+	/**
+	 * Tests the findByPk method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testfindByPk() throws Exception {
 
 		FacultyBean bean = new FacultyBean();
@@ -173,6 +206,11 @@ public class TestFacultyModel {
 		}
 	}
 
+	/**
+	 * Tests the delete method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testDelete() throws Exception {
 
 		FacultyBean bean = new FacultyBean();
@@ -184,6 +222,11 @@ public class TestFacultyModel {
 
 	}
 
+	/**
+	 * Tests the update method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testUpdate() throws Exception {
 
 		FacultyBean bean = new FacultyBean();
@@ -212,6 +255,11 @@ public class TestFacultyModel {
 
 	}
 
+	/**
+	 * Tests the add method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testAdd() throws Exception {
 
 		FacultyBean bean = new FacultyBean();
@@ -224,11 +272,11 @@ public class TestFacultyModel {
 		bean.setGender("Female");
 		bean.setMobileNo("9407126877");
 		bean.setEmail("kalpana@gmail.com");
-		//bean.setCollegeId(1);
+		// bean.setCollegeId(1);
 		bean.setCollegeName("Rays");
-		//bean.setCourseId(33);
+		// bean.setCourseId(33);
 		bean.setCourseName("Corporate Java");
-		//bean.setSubjectId(4003);
+		// bean.setSubjectId(4003);
 		bean.setSubjectName("Physics");
 		bean.setCreatedBy("admin");
 		bean.setModifiedBy("admin");
@@ -239,6 +287,11 @@ public class TestFacultyModel {
 
 	}
 
+	/**
+	 * Tests the nextPk method of {@link FacultyModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testNextPk() throws Exception {
 
 		FacultyModel model = new FacultyModel();

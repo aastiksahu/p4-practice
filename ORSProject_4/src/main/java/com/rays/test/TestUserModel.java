@@ -10,27 +10,46 @@ import java.util.List;
 import com.rays.bean.UserBean;
 import com.rays.model.UserModel;
 
+/**
+ * Test class to perform CRUD and other operations on UserModel. This class
+ * tests adding, updating, deleting, searching, listing, authentication, and
+ * finding UserBean objects by login or primary key.
+ * 
+ * @author Aastik Sahu
+ */
 public class TestUserModel {
 
+	/**
+	 * Main method to execute test methods.
+	 * 
+	 * @param args command line arguments
+	 * @throws Exception when any test method throws exception
+	 */
 	public static void main(String[] args) throws Exception {
 
-//		testNextPk();
-//		testAdd();
-//		testUpdate();
-//		testDelete();
-//		testfindByPk();
-//		testfindByLogin();
-//		testsearch();
-//		testlist();
-		testauthenticate();
+		// Uncomment the test you want to execute
+		// testNextPk();
+		// testAdd();
+		 testUpdate();
+		// testDelete();
+		// testfindByPk();
+		// testfindByLogin();
+		// testsearch();
+		// testlist();
+		// testauthenticate();
 	}
 
+	/**
+	 * Tests user authentication using login and password.
+	 * 
+	 * @throws Exception if an error occurs during authentication
+	 */
 	private static void testauthenticate() throws Exception {
 
 		UserBean bean = new UserBean();
 		UserModel model = new UserModel();
 
-		bean = model.authenticate("jeet@gmail.com","Jeet@123");
+		bean = model.authenticate("jeet@gmail.com", "Jeet@123");
 
 		if (bean != null) {
 
@@ -53,6 +72,11 @@ public class TestUserModel {
 
 	}
 
+	/**
+	 * Tests listing all users.
+	 * 
+	 * @throws Exception if an error occurs during listing
+	 */
 	private static void testlist() throws Exception {
 
 		UserBean bean = new UserBean();
@@ -85,6 +109,11 @@ public class TestUserModel {
 		}
 	}
 
+	/**
+	 * Tests searching users with optional criteria and pagination.
+	 * 
+	 * @throws Exception if an error occurs during search
+	 */
 	private static void testsearch() throws Exception {
 
 		UserBean bean = new UserBean();
@@ -93,6 +122,7 @@ public class TestUserModel {
 
 		List list = new ArrayList();
 
+		// Set search criteria if needed
 		// bean.setId(5262);
 		// bean.setFirstName("Shraddha");
 		// bean.setLastName("Sharma");
@@ -127,6 +157,11 @@ public class TestUserModel {
 		}
 	}
 
+	/**
+	 * Tests finding a user by login.
+	 * 
+	 * @throws Exception if an error occurs during find operation
+	 */
 	private static void testfindByLogin() throws Exception {
 
 		UserBean bean = new UserBean();
@@ -154,6 +189,11 @@ public class TestUserModel {
 		}
 	}
 
+	/**
+	 * Tests finding a user by primary key.
+	 * 
+	 * @throws Exception if an error occurs during find operation
+	 */
 	private static void testfindByPk() throws Exception {
 
 		UserBean bean = new UserBean();
@@ -181,6 +221,11 @@ public class TestUserModel {
 		}
 	}
 
+	/**
+	 * Tests deleting a user record.
+	 * 
+	 * @throws Exception if an error occurs during deletion
+	 */
 	private static void testDelete() throws Exception {
 
 		UserBean bean = new UserBean();
@@ -192,13 +237,18 @@ public class TestUserModel {
 
 	}
 
+	/**
+	 * Tests updating a user record.
+	 * 
+	 * @throws Exception if an error occurs during update
+	 */
 	private static void testUpdate() throws Exception {
 
 		UserBean bean = new UserBean();
 		UserModel model = new UserModel();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-		bean.setFirstName("Kalpana");
+		bean.setFirstName("Kalpanami");
 		bean.setLastName("Sahu");
 		bean.setLogin("kalpana@gmail.com");
 		bean.setPassword("pass123");
@@ -216,6 +266,11 @@ public class TestUserModel {
 
 	}
 
+	/**
+	 * Tests adding a new user record.
+	 * 
+	 * @throws Exception if an error occurs during add operation
+	 */
 	private static void testAdd() throws Exception {
 
 		UserBean bean = new UserBean();
@@ -239,6 +294,11 @@ public class TestUserModel {
 
 	}
 
+	/**
+	 * Tests retrieving the next primary key for User.
+	 * 
+	 * @throws Exception if an error occurs during pk retrieval
+	 */
 	private static void testNextPk() throws Exception {
 
 		UserModel model = new UserModel();

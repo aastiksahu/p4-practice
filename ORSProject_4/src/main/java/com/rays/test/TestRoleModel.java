@@ -9,22 +9,51 @@ import java.util.List;
 import com.rays.bean.RoleBean;
 import com.rays.model.RoleModel;
 
+/**
+ * Test class for {@link RoleModel} to validate CRUD operations.
+ * <p>
+ * This class includes test methods for:
+ * <ul>
+ * <li>Adding a role</li>
+ * <li>Updating a role</li>
+ * <li>Deleting a role</li>
+ * <li>Finding a role by primary key</li>
+ * <li>Finding a role by name</li>
+ * <li>Searching roles</li>
+ * <li>Listing all roles</li>
+ * <li>Getting the next primary key</li>
+ * </ul>
+ * </p>
+ * 
+ * @author Aastik Sahu
+ */
 public class TestRoleModel {
 
+	/**
+	 * Main method to execute test cases for {@link RoleModel}.
+	 *
+	 * @param args command-line arguments
+	 * @throws Exception if any exception occurs during testing
+	 */
 	public static void main(String[] args) throws Exception {
 
-//		testNextPk();
-//		testAdd();
-//		testUpdate();
-//		testDelete();
-//		testfindByPk();
-//		testfindByName();
-//		testsearch();
+//        testNextPk();
+//        testAdd();
+//        testUpdate();
+//        testDelete();
+//        testfindByPk();
+//        testfindByName();
+//        testsearch();
 		testlist();
 	}
 
+	/**
+	 * Tests the list functionality of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testlist() throws Exception {
-		
+
 		RoleBean bean = new RoleBean();
 		RoleModel model = new RoleModel();
 
@@ -49,6 +78,11 @@ public class TestRoleModel {
 		}
 	}
 
+	/**
+	 * Tests the search functionality of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testsearch() throws Exception {
 
 		RoleBean bean = new RoleBean();
@@ -80,6 +114,11 @@ public class TestRoleModel {
 
 	}
 
+	/**
+	 * Tests the findByName method of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testfindByName() throws Exception {
 
 		RoleBean bean = new RoleBean();
@@ -102,6 +141,11 @@ public class TestRoleModel {
 
 	}
 
+	/**
+	 * Tests the findByPk method of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testfindByPk() throws Exception {
 
 		RoleBean bean = new RoleBean();
@@ -124,6 +168,11 @@ public class TestRoleModel {
 
 	}
 
+	/**
+	 * Tests the delete functionality of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testDelete() throws Exception {
 
 		RoleBean bean = new RoleBean();
@@ -132,15 +181,18 @@ public class TestRoleModel {
 		bean.setId(44445);
 
 		model.delete(bean);
-
 	}
 
+	/**
+	 * Tests the update functionality of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testUpdate() throws Exception {
 
 		RoleBean bean = new RoleBean();
 		RoleModel model = new RoleModel();
 
-		
 		bean.setName("del");
 		bean.setDescription("delete has limited Access.");
 		bean.setCreatedBy("admin");
@@ -150,9 +202,13 @@ public class TestRoleModel {
 		bean.setId(66666);
 
 		model.update(bean);
-
 	}
 
+	/**
+	 * Tests the add functionality of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testAdd() throws Exception {
 
 		RoleBean bean = new RoleBean();
@@ -166,9 +222,13 @@ public class TestRoleModel {
 		bean.setModifiedDatetime(new Timestamp(new Date().getTime()));
 
 		model.add(bean);
-
 	}
 
+	/**
+	 * Tests the nextPk method of {@link RoleModel}.
+	 * 
+	 * @throws Exception if any error occurs
+	 */
 	private static void testNextPk() throws Exception {
 
 		RoleModel model = new RoleModel();

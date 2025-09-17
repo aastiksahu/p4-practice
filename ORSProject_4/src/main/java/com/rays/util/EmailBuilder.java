@@ -2,8 +2,27 @@ package com.rays.util;
 
 import java.util.HashMap;
 
+/**
+ * Utility class for building HTML email messages for various user account
+ * events such as registration, password recovery, and password changes.
+ * 
+ * All methods take a {@code HashMap<String, String>} containing necessary user
+ * information and return a formatted HTML string as the email body.
+ * 
+ * @author Aastik Sahu
+ */
 public class EmailBuilder {
 
+	/**
+	 * Builds a user registration confirmation email message.
+	 *
+	 * @param map A HashMap containing user details. Expected keys:
+	 *            <ul>
+	 *            <li>login</li>
+	 *            <li>password</li>
+	 *            </ul>
+	 * @return A String containing the HTML formatted registration email message.
+	 */
 	public static String getUserRegistrationMessage(HashMap<String, String> map) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("<HTML><BODY>");
@@ -17,6 +36,18 @@ public class EmailBuilder {
 		return msg.toString();
 	}
 
+	/**
+	 * Builds a password recovery email message.
+	 *
+	 * @param map A HashMap containing user details. Expected keys:
+	 *            <ul>
+	 *            <li>firstName</li>
+	 *            <li>lastName</li>
+	 *            <li>login</li>
+	 *            <li>password</li>
+	 *            </ul>
+	 * @return A String containing the HTML formatted forgot password email message.
+	 */
 	public static String getForgetPasswordMessage(HashMap<String, String> map) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("<HTML><BODY>");
@@ -29,6 +60,18 @@ public class EmailBuilder {
 		return msg.toString();
 	}
 
+	/**
+	 * Builds a change password confirmation email message.
+	 *
+	 * @param map A HashMap containing user details. Expected keys:
+	 *            <ul>
+	 *            <li>firstName</li>
+	 *            <li>lastName</li>
+	 *            <li>login</li>
+	 *            <li>password</li>
+	 *            </ul>
+	 * @return A String containing the HTML formatted change password email message.
+	 */
 	public static String getChangePasswordMessage(HashMap<String, String> map) {
 		StringBuilder msg = new StringBuilder();
 		msg.append("<HTML><BODY>");

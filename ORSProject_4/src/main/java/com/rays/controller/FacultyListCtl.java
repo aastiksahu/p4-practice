@@ -15,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.rays.bean.BaseBean;
 import com.rays.bean.FacultyBean;
 import com.rays.exception.ApplicationException;
@@ -37,6 +39,8 @@ import com.rays.util.ServletUtility;
  */
 @WebServlet(name = "FacultyListCtl", urlPatterns = "/ctl/FacultyListCtl")
 public class FacultyListCtl extends BaseCtl {
+	
+	Logger log = Logger.getLogger(FacultyListCtl.class);
 
 	/**
 	 * Populates FacultyBean with request parameters for search filtering.
@@ -46,6 +50,8 @@ public class FacultyListCtl extends BaseCtl {
 	 */
 	@Override
 	protected BaseBean populateBean(HttpServletRequest request) {
+		
+		log.debug("FacultyListCtl Populate Bean Method Started");
 
 		FacultyBean bean = new FacultyBean();
 
@@ -53,6 +59,8 @@ public class FacultyListCtl extends BaseCtl {
 		bean.setLastName(DataUtility.getString(request.getParameter("lastName")));
 		bean.setEmail(DataUtility.getString(request.getParameter("email")));
 
+		log.debug("FacultyListCtl Populate Bean Method Ended");
+		
 		return bean;
 	}
 
@@ -66,6 +74,8 @@ public class FacultyListCtl extends BaseCtl {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("FacultyListCtl Do Get Method Started");
 
 		int pageNo = 1;
 		int pageSize = DataUtility.getInt(PropertyReader.getValue("page.size"));
@@ -87,10 +97,13 @@ public class FacultyListCtl extends BaseCtl {
 			ServletUtility.setBean(bean, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("FacultyListCtl Do Get Method Ended");
 			ServletUtility.forward(getView(), request, response);
 
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
+			ServletUtility.handleException(e, request, response);
 		}
 	}
 
@@ -106,6 +119,8 @@ public class FacultyListCtl extends BaseCtl {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		log.debug("FacultyListCtl Do Post Method Started");
 
 		List list = null;
 		List next = null;
@@ -140,8 +155,10 @@ public class FacultyListCtl extends BaseCtl {
 
 			} else if (OP_DELETE.equalsIgnoreCase(op)) {
 				pageNo = 1;
+				
 				if (ids != null && ids.length > 0) {
 					FacultyBean deletebean = new FacultyBean();
+					
 					for (String id : ids) {
 						deletebean.setId(DataUtility.getInt(id));
 						model.delete(deletebean);
@@ -173,12 +190,15 @@ public class FacultyListCtl extends BaseCtl {
 			ServletUtility.setBean(bean, request);
 			request.setAttribute("nextListSize", next.size());
 
+			log.debug("FacultyListCtl Do Post Method Ended");
 			ServletUtility.forward(getView(), request, response);
+			
 		} catch (ApplicationException e) {
+			log.error(e);
 			e.printStackTrace();
 			ServletUtility.handleException(e, request, response);
 			return;
-		}
+		}		
 	}
 
 	/**
